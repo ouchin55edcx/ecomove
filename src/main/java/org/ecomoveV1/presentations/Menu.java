@@ -6,6 +6,7 @@ public class Menu {
 
         System.out.println("\n--- Partner  Management System ----");
         System.out.println("1. Display all partner names");
+        System.out.println("2. Add a partner ");
         System.out.println("0. Exit ");
         System.out.print("Enter your choice : ");
     }

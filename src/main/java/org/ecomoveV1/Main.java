@@ -30,6 +30,9 @@ public class Main {
                 case 1 :
                     partnerUi.displayAllPartnerNames();
                     break;
+                case 2 :
+                    partnerUi.addPartner();
+                    break;
                 case 0 :
                     running = false;
                     System.out.println("Exit ! \n Good By");
