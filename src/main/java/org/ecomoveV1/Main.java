@@ -33,6 +33,9 @@ public class Main {
                 case 2 :
                     partnerUi.addPartner();
                     break;
+                case 3 :
+                    partnerUi.displayPartnerByName();
+                    break;
                 case 0 :
                     running = false;
                     System.out.println("Exit ! \n Good By");

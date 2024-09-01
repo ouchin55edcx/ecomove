@@ -8,4 +8,5 @@ import java.util.UUID;
 public interface PartnerRepository {
     List<String> findAllPartnerNames();
     void addPartner(Partner partner);
+    Partner findPartnerByName(String companyName);
 }

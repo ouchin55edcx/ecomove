@@ -2,11 +2,14 @@ package org.ecomoveV1.repositories.impl;
 
 import org.ecomoveV1.config.DatabaseConnection;
 import org.ecomoveV1.models.entities.Partner;
+import org.ecomoveV1.models.enums.PartnerStatus;
+import org.ecomoveV1.models.enums.TransportType;
 import org.ecomoveV1.repositories.PartnerRepository;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class PartnerRepositoryImpl implements PartnerRepository {
     private final Connection connection = DatabaseConnection.getInstance().getConnection();
@@ -31,7 +34,7 @@ public class PartnerRepositoryImpl implements PartnerRepository {
     }
 
     @Override
-        public void addPartner(Partner partner) {
+    public void addPartner(Partner partner) {
         String query = "INSERT INTO " + tableName + " (id, company_name, commercial_contact, transport_type, geographical_zone, special_conditions, status, creation_date) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
             try (PreparedStatement pstmt = connection.prepareStatement(query)){
@@ -49,4 +52,29 @@ public class PartnerRepositoryImpl implements PartnerRepository {
                 throw new RuntimeException(e);
             }
         }
+
+    @Override
+    public Partner findPartnerByName(String companyName) {
+        String query = "SElECT * FROM "+tableName+" WHERE company_name = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)){
+            pstmt.setString(1,companyName);
+            ResultSet resultSet = pstmt.executeQuery();
+            if(resultSet.next()){
+                return new Partner(
+                    UUID.fromString(resultSet.getString("id")),
+                    resultSet.getString("company_name"),
+                    resultSet.getString("commercial_contact"),  // Changed from commercial_contact
+                    TransportType.valueOf(resultSet.getString("transport_type")),
+                    resultSet.getString("geographical_zone"),
+                    resultSet.getString("special_conditions"),
+                    PartnerStatus.valueOf(resultSet.getString("status")),
+                    resultSet.getDate("creation_date")
+                );
+            }
+
+        } catch (SQLException e) {
+             throw new RuntimeException(e);
+        }
+        return null;
+    }
 }

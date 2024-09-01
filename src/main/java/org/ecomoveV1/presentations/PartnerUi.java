@@ -74,4 +74,23 @@ public class PartnerUi {
 
 
     }
+
+    public void displayPartnerByName() {
+        System.out.print("Enter partner company name: ");
+        String companyName = scanner.nextLine();
+        Partner partner = repository.findPartnerByName(companyName);
+        if (partner != null) {
+            System.out.println("Partner found:");
+            System.out.println("ID: " + partner.getId());
+            System.out.println("Company Name: " + partner.getCompanyName());
+            System.out.println("Commercial Name: " + partner.getCommercialContact());
+            System.out.println("Transport Type: " + partner.getTransportType());
+            System.out.println("Geographical Zone: " + partner.getGeographical_zone());
+            System.out.println("Special Conditions: " + partner.getSpecialConditions());
+            System.out.println("Status: " + partner.getStatus());
+            System.out.println("Creation Date: " + partner.getCreationDate());
+        } else {
+            System.out.println("No partner found with company name: " + companyName);
+        }
+    }
 }
