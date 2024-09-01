@@ -12,6 +12,7 @@ public class DatabaseConnection {
     private static final String PASS = "ouchin55edcx";
 
 
+
     private static DatabaseConnection instance ;
     private final Connection connection ;
 
@@ -39,7 +40,7 @@ public class DatabaseConnection {
         try {
             if (connection !=null && !connection.isClosed()){
                 connection.close();
-
+                System.out.println("Connection closed ");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
