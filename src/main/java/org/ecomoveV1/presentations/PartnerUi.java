@@ -151,4 +151,52 @@ public class PartnerUi {
         }
 
     }
+
+
+    public void  updatePartner(){
+
+        System.out.println("#-------------- Delete Partner  --------------# ");
+
+        System.out.print("Enter ID of partner :");
+        String partnerIdInput = scanner.nextLine();
+        UUID partnerIdUp;
+        try {
+            partnerIdUp = UUID.fromString(partnerIdInput);
+
+        } catch (IllegalArgumentException e){
+            System.out.println("invalid uuid format !");
+            return;
+
+        }
+
+        System.out.print("Enter company name: ");
+        String companyName = scanner.nextLine();
+
+        System.out.print("Enter commercial contact: ");
+        String commercialContact = scanner.nextLine();
+
+        System.out.print("Enter transport type (e.g., BUS, TRAIN): ");
+        String transportTypeInput = scanner.nextLine();
+        TransportType transportType;
+        try {
+            transportType = TransportType.valueOf(transportTypeInput.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid transport type.");
+            return;
+        }
+
+        System.out.print("Enter geographical zone: ");
+        String geographicalZone = scanner.nextLine();
+
+        System.out.print("Enter special conditions: ");
+        String specialConditions = scanner.nextLine();
+
+        boolean success = repository.updatePartner(partnerIdUp, companyName, commercialContact, transportType, geographicalZone, specialConditions);
+        if (success) {
+            System.out.println("Partner details updated successfully.");
+        } else {
+            System.out.println("Failed to update partner details.");
+        }
+
+    }
 }

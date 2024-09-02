@@ -111,5 +111,28 @@ public class PartnerRepositoryImpl implements PartnerRepository {
         }
     }
 
+    @Override
+    public boolean updatePartner(UUID partnerId, String companyName, String commercialContact, TransportType transportType, String geographicalZone, String specialConditions) {
+
+        String query = "UPDATE " + tableName + " SET company_name = ?, commercial_contact = ?, transport_type = ?, geographical_zone = ?, special_conditions = ? WHERE id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            pstmt.setString(1, companyName);
+            pstmt.setString(2, commercialContact);
+            pstmt.setString(3, transportType.name());
+            pstmt.setString(4, geographicalZone);
+            pstmt.setString(5, specialConditions);
+            pstmt.setObject(6, partnerId); // Set partnerId as the last parameter
+
+            pstmt.executeUpdate();
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to update partner details", e);
+        }
+        return false;
+    }
+
 
 }

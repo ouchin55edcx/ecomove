@@ -17,7 +17,6 @@ public class Main {
         final Menu menu = new Menu();
         final PartnerUi partnerUi = new PartnerUi(repository);
 
-
         boolean running = true ;
 
 
@@ -41,6 +40,9 @@ public class Main {
                     break;
                 case 5 :
                     partnerUi.deletePartner();
+                    break;
+                case 6 :
+                    partnerUi.updatePartner();
                     break;
                 case 0 :
                     running = false;
