@@ -1,7 +1,6 @@
 package org.ecomoveV1;
 
 
-import org.ecomoveV1.models.entities.Contract;
 import org.ecomoveV1.presentations.ContractUi;
 import org.ecomoveV1.presentations.Menu;
 import org.ecomoveV1.presentations.PartnerUi;
@@ -55,6 +54,9 @@ public class Main {
                     break;
                 case 8 :
                     contractUi.displayContractDetails();
+                    break;
+                case 9 :
+                    contractUi.displayContractsByPartnerId();
                     break;
                 case 0 :
                     running = false;

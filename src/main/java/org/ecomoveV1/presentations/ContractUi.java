@@ -122,6 +122,37 @@ public class ContractUi {
     }
 
 
+    public void displayContractsByPartnerId() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter Partner ID: ");
+        String partnerIdInput = scanner.nextLine();
+
+        try {
+            UUID partnerId = UUID.fromString(partnerIdInput);
+            List<Contract> contracts = repository.findContractsByPartnerId(partnerId); // Changed to Contract
+
+            if (contracts.isEmpty()) {
+                System.out.println("No contracts found for this partner ID.");
+            } else {
+                System.out.println("#------------- Contracts for Partner ID: " + partnerId + " -------------#");
+
+                for (Contract contract : contracts) {
+                    System.out.println("Contract ID: " + contract.getId());
+                    System.out.println("Start Date: " + contract.getStartDate());
+                    System.out.println("End Date: " + contract.getEndDate());
+                    System.out.println("Special Rate: " + contract.getSpecialRate());
+                    System.out.println("Agreement Conditions: " + contract.getAgreementConditions());
+                    System.out.println("Renewable: " + (contract.isRenewable() ? "Yes" : "No"));
+                    System.out.println("Status: " + contract.getStatus());
+                    System.out.println("#---------------------------------------------#");
+                }
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid Partner ID format.");
+        }
+    }
+
 
 
 
