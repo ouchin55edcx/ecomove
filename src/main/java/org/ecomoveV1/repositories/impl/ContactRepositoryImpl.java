@@ -2,9 +2,13 @@ package org.ecomoveV1.repositories.impl;
 
 import org.ecomoveV1.config.DatabaseConnection;
 import org.ecomoveV1.models.entities.Contract;
+import org.ecomoveV1.models.enums.ContractStatus;
 import org.ecomoveV1.repositories.ContactRepository;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 public class ContactRepositoryImpl implements ContactRepository {
 
@@ -31,4 +35,38 @@ public class ContactRepositoryImpl implements ContactRepository {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public List<String> findAllContractsWithCompanyName() {
+        List<String> contractDetails = new ArrayList<>();
+        String query = "SELECT c.id, c.partner_id, c.start_date, c.end_date, c.special_rate, " +
+                "c.agreement_conditions, c.renewable, c.status, p.company_name " +
+                "FROM Contract c " +
+                "JOIN Partner p ON c.partner_id = p.id";
+
+        try (Statement stmt = connection.createStatement()) {
+            ResultSet resultSet = stmt.executeQuery(query);
+            while (resultSet.next()) {
+                String contractInfo = String.format(
+                        "Contract ID: %s, Partner ID: %s, Start Date: %s, End Date: %s, Special Rate: %s, " +
+                                "Agreement Conditions: %s, Renewable: %b, Status: %s, Company Name: %s",
+                        resultSet.getString("id"),
+                        resultSet.getString("partner_id"),
+                        resultSet.getDate("start_date"),
+                        resultSet.getDate("end_date"),
+                        resultSet.getBigDecimal("special_rate"),
+                        resultSet.getString("agreement_conditions"),
+                        resultSet.getBoolean("renewable"),
+                        resultSet.getString("status"),
+                        resultSet.getString("company_name")
+                );
+                contractDetails.add(contractInfo);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error fetching contract details with company names", e);
+        }
+        return contractDetails;
+    }
+
+
 }

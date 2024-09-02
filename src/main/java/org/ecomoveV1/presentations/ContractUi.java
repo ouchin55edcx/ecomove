@@ -7,6 +7,7 @@ import org.ecomoveV1.repositories.ContactRepository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -97,4 +98,32 @@ public class ContractUi {
             }
         }
     }
+
+    public void displayContractDetails() {
+        List<String> contractDetails = repository.findAllContractsWithCompanyName();
+
+        if (contractDetails.isEmpty()) {
+            System.out.println("No contracts found!");
+        } else {
+            System.out.println("#------------- All Contracts -------------#");
+
+            int count = 0;
+            for (String contractDetail : contractDetails) {
+                System.out.println("Contract " + (++count) + ":");
+                String[] details = contractDetail.split(",");
+
+                for (String detail : details) {
+                    System.out.println(detail.trim());
+                }
+
+                System.out.println("#----------------------------------------#");
+            }
+        }
+    }
+
+
+
+
+
+
 }

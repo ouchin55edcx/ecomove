@@ -52,6 +52,10 @@ public class Main {
                     break;
                 case 7 :
                     contractUi.addContract();
+                    break;
+                case 8 :
+                    contractUi.displayContractDetails();
+                    break;
                 case 0 :
                     running = false;
                     System.out.println("Exit ! \n Good By");
