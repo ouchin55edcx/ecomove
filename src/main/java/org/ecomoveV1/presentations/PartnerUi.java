@@ -110,7 +110,6 @@ public class PartnerUi {
 
         }
 
-
         System.out.println("Enter New status ");
         String StatusInput = scanner.nextLine().trim().toUpperCase();
 
@@ -125,6 +124,31 @@ public class PartnerUi {
 
         repository.UpdatePartnerStatus(partnerId, newStatus);
 
+    }
+
+    public void deletePartner(){
+
+        System.out.println("#-------------- Delete Partner  --------------# ");
+
+        System.out.print("Enter ID of partner :");
+        String partnerIdInput = scanner.nextLine();
+        UUID partnerIdDel;
+        try {
+            partnerIdDel = UUID.fromString(partnerIdInput);
+
+        } catch (IllegalArgumentException e){
+            System.out.println("invalid uuid format !");
+            return;
+
+        }
+
+        boolean isDeleted = repository.deletePartner(partnerIdDel);
+
+        if (isDeleted) {
+            System.out.println("Partner was deleted .");
+        } else {
+            System.out.println("Partner ID does not exist.");
+        }
 
     }
 }

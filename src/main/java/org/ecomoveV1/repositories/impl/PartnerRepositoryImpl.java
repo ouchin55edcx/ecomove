@@ -95,5 +95,21 @@ public class PartnerRepositoryImpl implements PartnerRepository {
 
     }
 
+    @Override
+    public boolean deletePartner(UUID partnerId) {
+
+        String query = "DELETE FROM "+tableName+" WHERE id = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)){
+
+            pstmt.setObject(1, partnerId);
+            int rowsCount =  pstmt.executeUpdate();
+            return rowsCount >0;
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
 }

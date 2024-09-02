@@ -11,4 +11,6 @@ public interface PartnerRepository {
     void addPartner(Partner partner);
     Partner findPartnerByName(String companyName);
     void UpdatePartnerStatus(UUID partnerId, PartnerStatus newStatus);
+    boolean deletePartner(UUID partnerId);
+
 }

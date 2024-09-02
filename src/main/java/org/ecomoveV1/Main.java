@@ -39,6 +39,9 @@ public class Main {
                 case 4 :
                     partnerUi.UpdatePartnerStatus();
                     break;
+                case 5 :
+                    partnerUi.deletePartner();
+                    break;
                 case 0 :
                     running = false;
                     System.out.println("Exit ! \n Good By");
