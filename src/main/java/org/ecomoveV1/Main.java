@@ -36,6 +36,9 @@ public class Main {
                 case 3 :
                     partnerUi.displayPartnerByName();
                     break;
+                case 4 :
+                    partnerUi.UpdatePartnerStatus();
+                    break;
                 case 0 :
                     running = false;
                     System.out.println("Exit ! \n Good By");

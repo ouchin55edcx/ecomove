@@ -77,4 +77,23 @@ public class PartnerRepositoryImpl implements PartnerRepository {
         }
         return null;
     }
+
+    @Override
+    public void UpdatePartnerStatus(UUID partnerId, PartnerStatus newStatus) {
+
+        String query = "UPDATE "+tableName+" SET status = ? WHERE id = id::uuid";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)){
+
+            pstmt.setString(1, newStatus.name());
+
+            pstmt.executeUpdate();
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
 }

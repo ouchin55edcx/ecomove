@@ -93,4 +93,38 @@ public class PartnerUi {
             System.out.println("No partner found with company name: " + companyName);
         }
     }
+
+    public void UpdatePartnerStatus(){
+
+        System.out.println("#-------------- Update Partner Status --------------# ");
+
+        System.out.print("Enter ID of partner :");
+        String partnerIdInput = scanner.nextLine();
+        UUID partnerId;
+        try {
+            partnerId = UUID.fromString(partnerIdInput);
+
+        } catch (IllegalArgumentException e){
+            System.out.println("invalid uuid format !");
+            return;
+
+        }
+
+
+        System.out.println("Enter New status ");
+        String StatusInput = scanner.nextLine().trim().toUpperCase();
+
+        PartnerStatus newStatus ;
+        try {
+            newStatus = PartnerStatus.valueOf(StatusInput);
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("invalid status !");
+            return;
+        }
+
+        repository.UpdatePartnerStatus(partnerId, newStatus);
+
+
+    }
 }
