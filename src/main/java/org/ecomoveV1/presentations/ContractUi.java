@@ -154,6 +154,36 @@ public class ContractUi {
     }
 
 
+    public void displayContractById() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter Contract ID: ");
+        String contractIdInput = scanner.nextLine();
+
+        try {
+            UUID contractId = UUID.fromString(contractIdInput);
+            Contract contract = repository.getContractById(contractId);
+
+            if (contract == null) {
+                System.out.println("No contract found with this ID.");
+            } else {
+                System.out.println("#------------- Contract ID: " + contract.getId() + " -------------#");
+                System.out.println("Partner ID: " + contract.getPartnerId());
+                System.out.println("Start Date: " + contract.getStartDate());
+                System.out.println("End Date: " + contract.getEndDate());
+                System.out.println("Special Rate: " + contract.getSpecialRate());
+                System.out.println("Agreement Conditions: " + contract.getAgreementConditions());
+                System.out.println("Renewable: " + (contract.isRenewable() ? "Yes" : "No"));
+                System.out.println("Status: " + contract.getStatus());
+                System.out.println("#---------------------------------------------#");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid Contract ID format.");
+        }
+    }
+
+
+
 
 
 

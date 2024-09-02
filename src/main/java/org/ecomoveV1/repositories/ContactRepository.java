@@ -9,6 +9,8 @@ public interface ContactRepository {
     void addContract(Contract contract);
     List<String> findAllContractsWithCompanyName();
     List<Contract> findContractsByPartnerId(UUID partnerId);
+    Contract getContractById(UUID contractId);
+
 
 
 }

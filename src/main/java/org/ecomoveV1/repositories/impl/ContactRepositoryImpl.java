@@ -96,5 +96,33 @@ public class ContactRepositoryImpl implements ContactRepository {
         return contracts; // Return the list of contracts
     }
 
+    @Override
+    public Contract getContractById(UUID contractId) {
+        String query = "SELECT * FROM Contract WHERE id = ?";
+        Contract contract = null;
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setObject(1, contractId);
+            ResultSet resultSet = pstmt.executeQuery();
+
+            if (resultSet.next()) {
+                contract = new Contract();
+                contract.setId(UUID.fromString(resultSet.getString("id")));
+                contract.setPartnerId(UUID.fromString(resultSet.getString("partner_id")));
+                contract.setStartDate(resultSet.getDate("start_date").toLocalDate());
+                contract.setEndDate(resultSet.getDate("end_date").toLocalDate());
+                contract.setSpecialRate(resultSet.getBigDecimal("special_rate"));
+                contract.setAgreementConditions(resultSet.getString("agreement_conditions"));
+                contract.setRenewable(resultSet.getBoolean("renewable"));
+                contract.setStatus(ContractStatus.valueOf(resultSet.getString("status")));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error fetching contract by ID", e);
+        }
+
+        return contract;
+    }
+
+
 
 }
