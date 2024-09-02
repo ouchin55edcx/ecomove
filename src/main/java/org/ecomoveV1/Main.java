@@ -1,21 +1,27 @@
 package org.ecomoveV1;
 
 
+import org.ecomoveV1.models.entities.Contract;
+import org.ecomoveV1.presentations.ContractUi;
 import org.ecomoveV1.presentations.Menu;
 import org.ecomoveV1.presentations.PartnerUi;
+import org.ecomoveV1.repositories.ContactRepository;
 import org.ecomoveV1.repositories.PartnerRepository;
+import org.ecomoveV1.repositories.impl.ContactRepositoryImpl;
 import org.ecomoveV1.repositories.impl.PartnerRepositoryImpl;
 import java.util.Scanner;
 
 public class Main {
     public static final Scanner scanner = new Scanner(System.in);
     private static final PartnerRepository repository = new PartnerRepositoryImpl();
+    private static final ContactRepository repositoryCnt = new ContactRepositoryImpl();
 
 
     public static void main(String[] args){
 
         final Menu menu = new Menu();
         final PartnerUi partnerUi = new PartnerUi(repository);
+        final ContractUi contractUi = new ContractUi(repositoryCnt);
 
         boolean running = true ;
 
@@ -44,6 +50,8 @@ public class Main {
                 case 6 :
                     partnerUi.updatePartner();
                     break;
+                case 7 :
+                    contractUi.addContract();
                 case 0 :
                     running = false;
                     System.out.println("Exit ! \n Good By");

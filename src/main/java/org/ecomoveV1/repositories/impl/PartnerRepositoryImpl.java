@@ -41,10 +41,10 @@ public class PartnerRepositoryImpl implements PartnerRepository {
                 pstmt.setObject(1, partner.getId());
                 pstmt.setString(2, partner.getCompanyName());
                 pstmt.setString(3, partner.getCommercialContact());
-                pstmt.setString(4, partner.getTransportType().name()); // Enum name as a string
+                pstmt.setString(4, partner.getTransportType().name());
                 pstmt.setString(5, partner.getGeographical_zone());
                 pstmt.setString(6, partner.getSpecialConditions());
-                pstmt.setString(7, partner.getStatus().name()); // Enum name as a string
+                pstmt.setString(7, partner.getStatus().name());
                 pstmt.setDate(8, new java.sql.Date(partner.getCreationDate().getTime()));
                 pstmt.executeUpdate();
 
@@ -123,7 +123,7 @@ public class PartnerRepositoryImpl implements PartnerRepository {
             pstmt.setString(3, transportType.name());
             pstmt.setString(4, geographicalZone);
             pstmt.setString(5, specialConditions);
-            pstmt.setObject(6, partnerId); // Set partnerId as the last parameter
+            pstmt.setObject(6, partnerId);
 
             pstmt.executeUpdate();
 
