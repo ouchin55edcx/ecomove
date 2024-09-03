@@ -8,6 +8,7 @@ import org.ecomoveV1.repositories.ContactRepository;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 import java.util.UUID;
 
 public class ContactRepositoryImpl implements ContactRepository {
@@ -121,6 +122,47 @@ public class ContactRepositoryImpl implements ContactRepository {
         }
 
         return contract;
+    }
+
+    @Override
+    public boolean updateContractById(UUID contractId, Contract updatedContract) {
+        String query = "UPDATE Contract SET partner_id = ?, start_date = ?, end_date = ?, special_rate = ?, agreement_conditions = ?, renewable = ?, status = ?::contract_status WHERE id = ?";
+        boolean updated = false;
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setObject(1, updatedContract.getPartnerId());
+            pstmt.setDate(2, Date.valueOf(updatedContract.getStartDate()));
+            pstmt.setDate(3, Date.valueOf(updatedContract.getEndDate()));
+            pstmt.setBigDecimal(4, updatedContract.getSpecialRate());
+            pstmt.setString(5, updatedContract.getAgreementConditions());
+            pstmt.setBoolean(6, updatedContract.isRenewable());
+            pstmt.setString(7, updatedContract.getStatus().name()); // No change needed here
+            pstmt.setObject(8, contractId);
+
+            int affectedRows = pstmt.executeUpdate();
+            updated = (affectedRows > 0);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error updating contract by ID", e);
+        }
+
+        return updated;
+    }
+
+    @Override
+    public boolean deleteContractById(UUID contractId) {
+        String query = "DELETE FROM Contract WHERE id = ?";
+        boolean deleted = false;
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setObject(1, contractId);
+
+            int affectedRows = pstmt.executeUpdate();
+            deleted = (affectedRows > 0);
+        } catch (SQLException e) {
+            throw new RuntimeException("Error deleting contract by ID", e);
+        }
+
+        return deleted;
     }
 
 

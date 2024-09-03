@@ -10,6 +10,9 @@ public interface ContactRepository {
     List<String> findAllContractsWithCompanyName();
     List<Contract> findContractsByPartnerId(UUID partnerId);
     Contract getContractById(UUID contractId);
+    boolean updateContractById(UUID contractId, Contract updatedContract);
+    boolean deleteContractById(UUID contractId);
+
 
 
 

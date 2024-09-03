@@ -61,6 +61,12 @@ public class Main {
                 case 10 :
                     contractUi.displayContractById();
                     break;
+                case 11 :
+                    contractUi.updateContractById();
+                    break;
+                case 12 :
+                    contractUi.deleteContractById();
+                    break;
                 case 0 :
                     running = false;
                     System.out.println("Exit ! \n Good By");

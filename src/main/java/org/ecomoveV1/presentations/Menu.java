@@ -15,6 +15,8 @@ public class Menu {
         System.out.println("8. Display all contract ");
         System.out.println("9. Display Contract by partner Id ");
         System.out.println("10. Get contract details by id ");
+        System.out.println("11. Update contract ");
+        System.out.println("12 . Delete contract by id ");
         System.out.println("0. Exit ");
         System.out.print("Enter your choice : ");
     }
