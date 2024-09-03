@@ -75,7 +75,9 @@ public class Main {
                 case 13 :
                     promotionUi.addPromotion();
                     break;
-
+                case 14 :
+                    promotionUi.listAllPromotionalOffers();
+                    break;
                 case 0 :
                     running = false;
                     System.out.println("Exit ! \n Good By");

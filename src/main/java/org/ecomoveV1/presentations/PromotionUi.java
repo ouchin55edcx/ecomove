@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -161,6 +162,24 @@ public class PromotionUi {
             }
         }
     }
+
+
+
+    public void listAllPromotionalOffers() {
+        List<PromotionalOffer> offers = repository.getAllPromotionalOffers();
+        if (offers.isEmpty()) {
+            System.out.println("No promotional offers found.");
+        } else {
+            System.out.println("\nAll Promotional Offers:");
+            for (PromotionalOffer offer : offers) {
+                System.out.println(offer);
+            }
+        }
+    }
+
+
+
+
 
 
 }
