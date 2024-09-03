@@ -4,16 +4,21 @@ package org.ecomoveV1;
 import org.ecomoveV1.presentations.ContractUi;
 import org.ecomoveV1.presentations.Menu;
 import org.ecomoveV1.presentations.PartnerUi;
+import org.ecomoveV1.presentations.PromotionUi;
 import org.ecomoveV1.repositories.ContactRepository;
 import org.ecomoveV1.repositories.PartnerRepository;
+import org.ecomoveV1.repositories.PromotionalOfferRepository;
 import org.ecomoveV1.repositories.impl.ContactRepositoryImpl;
 import org.ecomoveV1.repositories.impl.PartnerRepositoryImpl;
+import org.ecomoveV1.repositories.impl.PromotionalOfferRepositoryImpl;
+
 import java.util.Scanner;
 
 public class Main {
     public static final Scanner scanner = new Scanner(System.in);
     private static final PartnerRepository repository = new PartnerRepositoryImpl();
     private static final ContactRepository repositoryCnt = new ContactRepositoryImpl();
+    private static  final PromotionalOfferRepository repositoryPro  = new PromotionalOfferRepositoryImpl();
 
 
     public static void main(String[] args){
@@ -21,7 +26,7 @@ public class Main {
         final Menu menu = new Menu();
         final PartnerUi partnerUi = new PartnerUi(repository);
         final ContractUi contractUi = new ContractUi(repositoryCnt);
-
+        final PromotionUi promotionUi = new PromotionUi(repositoryPro);
         boolean running = true ;
 
 
@@ -67,6 +72,10 @@ public class Main {
                 case 12 :
                     contractUi.deleteContractById();
                     break;
+                case 13 :
+                    promotionUi.addPromotion();
+                    break;
+
                 case 0 :
                     running = false;
                     System.out.println("Exit ! \n Good By");
