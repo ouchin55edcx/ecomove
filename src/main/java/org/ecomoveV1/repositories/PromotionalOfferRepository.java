@@ -8,5 +8,9 @@ import java.util.UUID;
 public interface PromotionalOfferRepository {
     void addPromotion(PromotionalOffer offer);
     List<PromotionalOffer> getAllPromotionalOffers();
+    PromotionalOffer getPromotionalOfferById(UUID id);
+    void updatePromotionalOffer(PromotionalOffer offer);
+    void deletePromotionalOffer(UUID id);
+
 
 }

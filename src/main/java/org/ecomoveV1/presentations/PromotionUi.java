@@ -178,8 +178,152 @@ public class PromotionUi {
     }
 
 
+    public void displayPromotionById() {
+        System.out.print("Enter the promotion ID: ");
+        String idString = scanner.nextLine().trim();
 
+        try {
+            UUID id = UUID.fromString(idString);
+            PromotionalOffer offer = repository.getPromotionalOfferById(id);
 
+            if (offer != null) {
+                System.out.println("\nPromotion Details:");
+                System.out.println("ID: " + offer.getId());
+                System.out.println("Contract ID: " + offer.getContractId());
+                System.out.println("Offer Name: " + offer.getOfferName());
+                System.out.println("Description: " + offer.getDescription());
+                System.out.println("Start Date: " + offer.getStartDate());
+                System.out.println("End Date: " + offer.getEndDate());
+                System.out.println("Reduction Type: " + offer.getReductionType());
+                System.out.println("Reduction Value: " + offer.getReduction_value());
+                System.out.println("Conditions: " + offer.getConditions());
+                System.out.println("Status: " + offer.getStatus());
+            } else {
+                System.out.println("No promotion found with ID: " + idString);
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid UUID format. Please try again.");
+        }
+    }
 
+    public void updatePromotionalOffer() {
+        System.out.print("Enter the ID of the promotional offer to update: ");
+        String idString = scanner.nextLine().trim();
 
+        try {
+            UUID id = UUID.fromString(idString);
+            PromotionalOffer offer = repository.getPromotionalOfferById(id);
+
+            if (offer != null) {
+                System.out.println("Enter new details (press Enter to keep current value):");
+
+                System.out.print("Offer Name [" + offer.getOfferName() + "]: ");
+                String offerName = scanner.nextLine();
+                if (!offerName.isEmpty()) offer.setOfferName(offerName);
+
+                System.out.print("Description [" + offer.getDescription() + "]: ");
+                String description = scanner.nextLine();
+                if (!description.isEmpty()) offer.setDescription(description);
+
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+
+                System.out.print("Start Date [" + offer.getStartDate() + "]: ");
+                String startDateStr = scanner.nextLine();
+                if (!startDateStr.isEmpty()) {
+                    try {
+                        LocalDate startDate = LocalDate.parse(startDateStr, formatter);
+                        offer.setStartDate(startDate);
+                    } catch (DateTimeParseException e) {
+                        System.out.println("Invalid date format. Keeping the current value.");
+                    }
+                }
+
+                System.out.print("End Date [" + offer.getEndDate() + "]: ");
+                String endDateStr = scanner.nextLine();
+                if (!endDateStr.isEmpty()) {
+                    try {
+                        LocalDate endDate = LocalDate.parse(endDateStr, formatter);
+                        offer.setEndDate(endDate);
+                    } catch (DateTimeParseException e) {
+                        System.out.println("Invalid date format. Keeping the current value.");
+                    }
+                }
+
+                System.out.print("Reduction Type [" + offer.getReductionType() + "]: ");
+                String reductionTypeStr = scanner.nextLine();
+                if (!reductionTypeStr.isEmpty()) {
+                    try {
+                        ReductionType reductionType = ReductionType.valueOf(reductionTypeStr.toUpperCase());
+                        offer.setReductionType(reductionType);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Invalid reduction type. Keeping the current value.");
+                    }
+                }
+
+                System.out.print("Reduction Value [" + offer.getReduction_value() + "]: ");
+                String reductionValueStr = scanner.nextLine();
+                if (!reductionValueStr.isEmpty()) {
+                    try {
+                        BigDecimal reductionValue = new BigDecimal(reductionValueStr);
+                        offer.setReduction_value(reductionValue);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid number format. Keeping the current value.");
+                    }
+                }
+
+                System.out.print("Conditions [" + offer.getConditions() + "]: ");
+                String conditions = scanner.nextLine();
+                if (!conditions.isEmpty()) offer.setConditions(conditions);
+
+                System.out.print("Status [" + offer.getStatus() + "]: ");
+                String statusStr = scanner.nextLine();
+                if (!statusStr.isEmpty()) {
+                    try {
+                        OfferStatus status = OfferStatus.valueOf(statusStr.toUpperCase());
+                        offer.setStatus(status);
+                    } catch (IllegalArgumentException e) {
+                        System.out.println("Invalid status. Keeping the current value.");
+                    }
+                }
+
+                repository.updatePromotionalOffer(offer);
+                System.out.println("Promotional offer updated successfully.");
+            } else {
+                System.out.println("No promotion found with ID: " + idString);
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid UUID format. Please try again.");
+        }
+    }
+
+    public void deletePromotionalOffer() {
+        System.out.print("Enter the ID of the promotional offer to delete: ");
+        String idString = scanner.nextLine().trim();
+
+        try {
+            UUID id = UUID.fromString(idString);
+            PromotionalOffer offer = repository.getPromotionalOfferById(id);
+
+            if (offer != null) {
+                System.out.println("Are you sure you want to delete this offer? (y/n)");
+                System.out.println("Offer Name: " + offer.getOfferName());
+                System.out.println("Description: " + offer.getDescription());
+
+                String confirmation = scanner.nextLine().trim().toLowerCase();
+                if (confirmation.equals("y")) {
+                    repository.deletePromotionalOffer(id);
+                    System.out.println("Promotional offer deleted successfully.");
+                } else {
+                    System.out.println("Deletion cancelled.");
+                }
+            } else {
+                System.out.println("No promotion found with ID: " + idString);
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid UUID format. Please try again.");
+        }
+    }
 }
+
+
+

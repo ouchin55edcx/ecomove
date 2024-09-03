@@ -19,6 +19,9 @@ public class Menu {
         System.out.println("12 . Delete contract by id ");
         System.out.println("13 . add promotion ");
         System.out.println("14. list all promotion Offer");
+        System.out.println("15. Display promotion offer by id ");
+        System.out.println("16. Update promotionOffer");
+        System.out.println("delete a promotion offer");
         System.out.println("0. Exit ");
         System.out.print("Enter your choice : ");
     }

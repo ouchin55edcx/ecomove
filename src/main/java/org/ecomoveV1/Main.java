@@ -78,6 +78,15 @@ public class Main {
                 case 14 :
                     promotionUi.listAllPromotionalOffers();
                     break;
+                case 15 :
+                    promotionUi.displayPromotionById();
+                    break;
+                case 16 :
+                    promotionUi.updatePromotionalOffer();
+                    break;
+                case 17 :
+                    promotionUi.deletePromotionalOffer();
+                    break;
                 case 0 :
                     running = false;
                     System.out.println("Exit ! \n Good By");
