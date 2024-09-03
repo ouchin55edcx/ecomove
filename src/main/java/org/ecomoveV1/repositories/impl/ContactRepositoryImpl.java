@@ -8,7 +8,6 @@ import org.ecomoveV1.repositories.ContactRepository;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 import java.util.UUID;
 
 public class ContactRepositoryImpl implements ContactRepository {
@@ -94,7 +93,7 @@ public class ContactRepositoryImpl implements ContactRepository {
             throw new RuntimeException("Error fetching contracts by partner ID", e);
         }
 
-        return contracts; // Return the list of contracts
+        return contracts;
     }
 
     @Override

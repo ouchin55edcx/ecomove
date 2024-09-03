@@ -33,46 +33,88 @@ public class PartnerUi {
         }
     }
 
-    public  void addPartner(){
-
+    public void addPartner() {
         System.out.println("#------------ Add New Partner : -------------#");
 
-        System.out.println("Enter Company Name : ");
-        String companyName = scanner.nextLine();
-
-        System.out.print("Enter Commercial Contact: ");
-        String commercialName = scanner.nextLine();
-
-        System.out.print("Enter Transport Type (e.g., 'PLANE', 'TRAIN', 'BUS'): ");
-        String transportTypeInput = scanner.nextLine().trim().toUpperCase();
-        TransportType transportType = TransportType.valueOf(transportTypeInput);
-
-        System.out.print("Enter Geographical Zone: ");
-        String geographicalZone = scanner.nextLine();
-
-        System.out.print("Enter Special Conditions: ");
-        String specialConditions = scanner.nextLine();
-
-        System.out.print("Enter Status (ex: 'ACTIVE', 'INACTIVE') or press Enter for default (ACTIVE): ");
-        String statusInput = scanner.nextLine().trim().toUpperCase();
-
-        PartnerStatus status;
-
-        if(statusInput.isEmpty()){
-            status = PartnerStatus.ACTIVE;
-        }else{
-            status = PartnerStatus.valueOf(statusInput);
-        }
+        String companyName = getCompanyNameInput();
+        String commercialName = getCommercialNameInput();
+        TransportType transportType = getTransportTypeInput();
+        String geographicalZone = getGeographicalZoneInput();
+        String specialConditions = getSpecialConditionsInput();
+        PartnerStatus status = getStatusInput();
 
         Date creationDate = new Date();
-        UUID id =  UUID.randomUUID();
+        UUID id = UUID.randomUUID();
 
         Partner newPartner = new Partner(id, companyName, commercialName, transportType, geographicalZone, specialConditions, status, creationDate);
         repository.addPartner(newPartner);
         System.out.println("New partner added successfully!");
+    }
 
 
+    private String getCompanyNameInput() {
+        while (true) {
+            System.out.print("Enter Company Name: ");
+            String input = scanner.nextLine().trim();
+            if (!input.isEmpty()) {
+                return input;
+            }
+            System.out.println("Company name cannot be empty. Please try again.");
+        }
+    }
 
+    private String getCommercialNameInput() {
+        while (true) {
+            System.out.print("Enter Commercial Contact: ");
+            String input = scanner.nextLine().trim();
+            if (!input.isEmpty()) {
+                return input;
+            }
+            System.out.println("Commercial contact cannot be empty. Please try again.");
+        }
+    }
+
+    private TransportType getTransportTypeInput() {
+        while (true) {
+            System.out.print("Enter Transport Type (e.g., 'PLANE', 'TRAIN', 'BUS'): ");
+            String input = scanner.nextLine().trim().toUpperCase();
+            try {
+                return TransportType.valueOf(input);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid transport type. Please try again.");
+            }
+        }
+    }
+
+    private String getGeographicalZoneInput() {
+        while (true) {
+            System.out.print("Enter Geographical Zone: ");
+            String input = scanner.nextLine().trim();
+            if (!input.isEmpty()) {
+                return input;
+            }
+            System.out.println("Geographical zone cannot be empty. Please try again.");
+        }
+    }
+
+    private String getSpecialConditionsInput() {
+        System.out.print("Enter Special Conditions (or press Enter if none): ");
+        return scanner.nextLine().trim();
+    }
+
+    private PartnerStatus getStatusInput() {
+        while (true) {
+            System.out.print("Enter Status ('ACTIVE' or 'INACTIVE') or press Enter for default (ACTIVE): ");
+            String input = scanner.nextLine().trim().toUpperCase();
+            if (input.isEmpty()) {
+                return PartnerStatus.ACTIVE;
+            }
+            try {
+                return PartnerStatus.valueOf(input);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid status. Please enter 'ACTIVE' or 'INACTIVE'.");
+            }
+        }
     }
 
     public void displayPartnerByName() {

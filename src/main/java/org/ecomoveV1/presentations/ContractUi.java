@@ -31,6 +31,8 @@ public class ContractUi {
         String agreementConditions = getAgreementConditionsInput();
         boolean renewable = getRenewableInput();
 
+
+
         ContractStatus status = ContractStatus.ACTIVE;
 
         Contract newContract = new Contract(id, partnerId, startDate, endDate, specialRate, agreementConditions, renewable, status);
@@ -184,7 +186,6 @@ public class ContractUi {
 
 
     public void updateContractById() {
-        Scanner scanner = new Scanner(System.in);
 
         System.out.print("Enter Contract ID: ");
         String contractIdInput = scanner.nextLine();
@@ -192,14 +193,12 @@ public class ContractUi {
         try {
             UUID contractId = UUID.fromString(contractIdInput);
 
-            // Fetch existing contract to pre-fill the fields
             Contract existingContract = repository.getContractById(contractId);
             if (existingContract == null) {
                 System.out.println("No contract found with this ID.");
                 return;
             }
 
-            // Display current contract values and ask for new values
             System.out.println("Current Partner ID: " + existingContract.getPartnerId());
             System.out.print("Enter new Partner ID (or press Enter to keep current): ");
             String partnerIdInput = scanner.nextLine();
@@ -235,7 +234,6 @@ public class ContractUi {
             String statusInput = scanner.nextLine();
             ContractStatus newStatus = statusInput.isEmpty() ? existingContract.getStatus() : ContractStatus.valueOf(statusInput);
 
-            // Create the updated contract object
             Contract updatedContract = new Contract();
             updatedContract.setPartnerId(newPartnerId);
             updatedContract.setStartDate(newStartDate);
@@ -245,7 +243,6 @@ public class ContractUi {
             updatedContract.setRenewable(newRenewable);
             updatedContract.setStatus(newStatus);
 
-            // Update the contract in the database
             boolean success = repository.updateContractById(contractId, updatedContract);
             if (success) {
                 System.out.println("Contract updated successfully.");
@@ -284,12 +281,6 @@ public class ContractUi {
             System.out.println("Invalid Contract ID format.");
         }
     }
-
-
-
-
-
-
 
 
 }
