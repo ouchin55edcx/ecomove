@@ -1,16 +1,16 @@
 package org.ecomoveV1;
 
 
-import org.ecomoveV1.presentations.ContractUi;
-import org.ecomoveV1.presentations.Menu;
-import org.ecomoveV1.presentations.PartnerUi;
-import org.ecomoveV1.presentations.PromotionUi;
+import org.ecomoveV1.models.entities.Ticket;
+import org.ecomoveV1.presentations.*;
 import org.ecomoveV1.repositories.ContactRepository;
 import org.ecomoveV1.repositories.PartnerRepository;
 import org.ecomoveV1.repositories.PromotionalOfferRepository;
+import org.ecomoveV1.repositories.TicketRepository;
 import org.ecomoveV1.repositories.impl.ContactRepositoryImpl;
 import org.ecomoveV1.repositories.impl.PartnerRepositoryImpl;
 import org.ecomoveV1.repositories.impl.PromotionalOfferRepositoryImpl;
+import org.ecomoveV1.repositories.impl.TicketRepositoryImpl;
 
 import java.util.Scanner;
 
@@ -19,7 +19,7 @@ public class Main {
     private static final PartnerRepository repository = new PartnerRepositoryImpl();
     private static final ContactRepository repositoryCnt = new ContactRepositoryImpl();
     private static  final PromotionalOfferRepository repositoryPro  = new PromotionalOfferRepositoryImpl();
-
+    private static  final TicketRepository repositoryTck = new TicketRepositoryImpl();
 
     public static void main(String[] args){
 
@@ -27,6 +27,7 @@ public class Main {
         final PartnerUi partnerUi = new PartnerUi(repository);
         final ContractUi contractUi = new ContractUi(repositoryCnt);
         final PromotionUi promotionUi = new PromotionUi(repositoryPro);
+        final TicketUi ticketUi = new TicketUi(repositoryTck);
         boolean running = true ;
 
 
@@ -87,6 +88,13 @@ public class Main {
                 case 17 :
                     promotionUi.deletePromotionalOffer();
                     break;
+                case 18 :
+                    ticketUi.addTicket();
+                    break;
+                case 19 :
+                    ticketUi.ListAllTicket();
+                    break;
+
                 case 0 :
                     running = false;
                     System.out.println("Exit ! \n Good By");

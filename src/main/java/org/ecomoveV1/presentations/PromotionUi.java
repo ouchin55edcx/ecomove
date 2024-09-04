@@ -56,6 +56,7 @@ public class PromotionUi {
         System.out.println("New PromotionalOffer added successfully!");
 
     }
+
     private UUID getContractIdInput() {
         while (true) {
             System.out.print("Enter Contract ID: ");
