@@ -66,4 +66,47 @@ public class TicketRepositoryImpl implements TicketRepository {
 
         return tickets;
     }
+
+    @Override
+    public void updateTicket(UUID id, Ticket updatedTicket) {
+        String query = "UPDATE " + tableName + " SET contract_id = ?, transport_type = ?::transport_type, purchase_price = ?, sale_price = ?, sale_date = ?, status = ?::ticket_status WHERE id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+
+            pstmt.setObject(1, updatedTicket.getContractId());
+            pstmt.setString(2, updatedTicket.getTransportType().name());
+            pstmt.setBigDecimal(3, updatedTicket.getPurchasePrice());
+            pstmt.setBigDecimal(4, updatedTicket.getSalePrice());
+            pstmt.setDate(5, java.sql.Date.valueOf(updatedTicket.getSaleDate()));
+            pstmt.setString(6, updatedTicket.getTicketStatus().name());
+            pstmt.setObject(7, id);
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new RuntimeException("No ticket found with ID: " + id);
+            }
+            System.out.println("Ticket updated successfully!");
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void deleteTicket(UUID id) {
+        String query = "DELETE FROM " + tableName + " WHERE id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setObject(1, id);
+
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows == 0) {
+                throw new RuntimeException("No ticket found with ID: " + id);
+            }
+            System.out.println("Ticket deleted successfully!");
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
 }

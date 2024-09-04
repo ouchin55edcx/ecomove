@@ -140,6 +140,60 @@ public class TicketUi {
     }
 
 
+    public void updateTicket() {
+        System.out.println("#------------ Update Ticket : -------------#");
+
+        UUID id = getTicketIdInput();
+        UUID contractId = getContcractIdInput();
+        TransportType transportType = getTransportTypeInput();
+        BigDecimal purchasePrice = getPurchasePrice();
+        BigDecimal salePrice = getSalePrice();
+        LocalDate saleDate = getSaleDate();
+        TicketStatus ticketStatus = getTicketStatusInput();
+
+        Ticket updatedTicket = new Ticket(
+                id,
+                contractId,
+                transportType,
+                purchasePrice,
+                salePrice,
+                saleDate,
+                ticketStatus
+        );
+
+        repository.updateTicket(id, updatedTicket);
+        System.out.println("Ticket updated successfully!");
+    }
+
+    private UUID getTicketIdInput() {
+        while (true) {
+            System.out.print("Enter Ticket ID: ");
+            String input = scanner.nextLine().trim();
+            try {
+                return UUID.fromString(input);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid UUID format. Please try again.");
+            }
+        }
+    }
+
+
+    public void deleteTicket() {
+        System.out.println("#------------ Delete Ticket : -------------#");
+
+        UUID id = getTicketIdInput();
+
+        try {
+            repository.deleteTicket(id);
+            System.out.println("Ticket deleted successfully!");
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
+
+
 
 
 }

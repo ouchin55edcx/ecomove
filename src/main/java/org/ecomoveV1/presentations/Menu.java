@@ -24,6 +24,8 @@ public class Menu {
         System.out.println("17. delete a promotion offer");
         System.out.println("18. add a ticket " );
         System.out.println("19. list all ticket ");
+        System.out.println("20. update ticket ");
+        System.out.println("21. delete ticket ");
         System.out.println("0. Exit ");
         System.out.print("Enter your choice : ");
     }

@@ -94,6 +94,11 @@ public class Main {
                 case 19 :
                     ticketUi.ListAllTicket();
                     break;
+                case 20 :
+                    ticketUi.updateTicket();
+                    break;
+                case 21 :
+                    ticketUi.deleteTicket();
 
                 case 0 :
                     running = false;
