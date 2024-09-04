@@ -99,6 +99,10 @@ public class Main {
                     break;
                 case 21 :
                     ticketUi.deleteTicket();
+                    break;
+                case 22 :
+                    ticketUi.viewTicketById();
+                    break;
 
                 case 0 :
                     running = false;

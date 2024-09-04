@@ -191,6 +191,27 @@ public class TicketUi {
         }
     }
 
+    public void viewTicketById() {
+        System.out.println("#------------ View Ticket by ID : -------------#");
+
+        UUID id = getTicketIdInput();
+
+        try {
+            Ticket ticket = repository.getTicketById(id);
+            System.out.println("Ticket Details:");
+            System.out.println("ID: " + ticket.getTicketId());
+            System.out.println("Contract ID: " + ticket.getContractId());
+            System.out.println("Transport Type: " + ticket.getTransportType());
+            System.out.println("Purchase Price: " + ticket.getPurchasePrice());
+            System.out.println("Sale Price: " + ticket.getSalePrice());
+            System.out.println("Sale Date: " + ticket.getSaleDate());
+            System.out.println("Status: " + ticket.getTicketStatus());
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+
 
 
 

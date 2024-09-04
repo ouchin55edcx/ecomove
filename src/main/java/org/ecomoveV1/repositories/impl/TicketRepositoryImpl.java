@@ -109,4 +109,31 @@ public class TicketRepositoryImpl implements TicketRepository {
     }
 
 
+    @Override
+    public Ticket getTicketById(UUID id) {
+        String query = "SELECT * FROM " + tableName + " WHERE id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setObject(1, id);
+
+            ResultSet resultSet = pstmt.executeQuery();
+            if (resultSet.next()) {
+                return new Ticket(
+                        resultSet.getObject("id", UUID.class),
+                        resultSet.getObject("contract_id", UUID.class),
+                        TransportType.valueOf(resultSet.getString("transport_type")),
+                        resultSet.getBigDecimal("purchase_price"),
+                        resultSet.getBigDecimal("sale_price"),
+                        resultSet.getDate("sale_date").toLocalDate(),
+                        TicketStatus.valueOf(resultSet.getString("status"))
+                );
+            } else {
+                throw new RuntimeException("No ticket found with ID: " + id);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+
 }
