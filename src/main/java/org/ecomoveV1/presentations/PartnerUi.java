@@ -19,6 +19,8 @@ public class PartnerUi {
         this.repository = repository;
     }
 
+
+
     public void displayAllPartnerNames(){
         List<String> partnerNames = repository.findAllPartnerNames();
         if (partnerNames.isEmpty()){
