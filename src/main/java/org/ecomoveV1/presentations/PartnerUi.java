@@ -4,6 +4,7 @@ import org.ecomoveV1.models.entities.Partner;
 import org.ecomoveV1.models.enums.PartnerStatus;
 import org.ecomoveV1.models.enums.TransportType;
 import org.ecomoveV1.repositories.PartnerRepository;
+import org.ecomoveV1.services.PartnerService;
 
 import java.util.Date;
 import java.util.List;
@@ -12,29 +13,28 @@ import java.util.UUID;
 
 public class PartnerUi {
 
-    final private PartnerRepository repository;
+    final private PartnerService partnerService ;
     final private Scanner scanner = new Scanner(System.in);
 
-    public PartnerUi(PartnerRepository repository) {
-        this.repository = repository;
+    public PartnerUi(PartnerService partnerService) {
+        this.partnerService = partnerService;
     }
 
-
-
-    public void displayAllPartnerNames(){
-        List<String> partnerNames = repository.findAllPartnerNames();
-        if (partnerNames.isEmpty()){
-            System.out.println("No partner found !");
-        }else {
+    //method refactored
+    public void displayAllPartnerNames() {
+        List<String> partnerNames = partnerService.getAllPartnerNames();
+        if (partnerNames.isEmpty()) {
+            System.out.println("No partner found!");
+        } else {
             System.out.println("#------------- All Partners -------------#");
             int count = 0;
-            for (String name : partnerNames){
-                System.out.println("Company Name "+ ++count+name);
-
+            for (String name : partnerNames) {
+                System.out.println("Company Name " + (++count) + ": " + name);
             }
         }
     }
 
+    //method refactored
     public void addPartner() {
         System.out.println("#------------ Add New Partner : -------------#");
 
@@ -45,15 +45,119 @@ public class PartnerUi {
         String specialConditions = getSpecialConditionsInput();
         PartnerStatus status = getStatusInput();
 
-        Date creationDate = new Date();
-        UUID id = UUID.randomUUID();
-
-        Partner newPartner = new Partner(id, companyName, commercialName, transportType, geographicalZone, specialConditions, status, creationDate);
-        repository.addPartner(newPartner);
+        partnerService.addPartner(companyName, commercialName, transportType,
+                geographicalZone, specialConditions, status);
         System.out.println("New partner added successfully!");
     }
 
 
+
+
+    public void displayPartnerByName() {
+        System.out.print("Enter partner company name: ");
+        String companyName = scanner.nextLine();
+        Partner partner = partnerService.findPartnerByName(companyName);
+        if (partner != null) {
+            System.out.println("Partner found:");
+            System.out.println("ID: " + partner.getId());
+            System.out.println("Company Name: " + partner.getCompanyName());
+            System.out.println("Commercial Name: " + partner.getCommercialContact());
+            System.out.println("Transport Type: " + partner.getTransportType());
+            System.out.println("Geographical Zone: " + partner.getGeographical_zone());
+            System.out.println("Special Conditions: " + partner.getSpecialConditions());
+            System.out.println("Status: " + partner.getStatus());
+            System.out.println("Creation Date: " + partner.getCreationDate());
+        } else {
+            System.out.println("No partner found with company name: " + companyName);
+        }
+    }
+
+
+    public void UpdatePartnerStatus(){
+
+        System.out.println("#-------------- Update Partner Status --------------# ");
+
+        UUID partnerId = getPartnerIdInput();
+        PartnerStatus newStatus = getPartnerStatusInput();
+
+        partnerService.updatePartnerStatus(partnerId, newStatus);
+        System.out.println("Partner status updated successfully.");
+
+    }
+
+
+
+    public void deletePartner(){
+
+        System.out.println("#-------------- Delete Partner  --------------# ");
+
+        UUID partnerIdDel = getPartnerIdInput();
+
+        boolean isDeleted = partnerService.deletePartner(partnerIdDel);
+
+        if (isDeleted) {
+            System.out.println("Partner was deleted .");
+        } else {
+            System.out.println("Partner ID does not exist.");
+        }
+
+    }
+
+
+    public void updatePartner() {
+        System.out.println("#-------------- Update Partner  --------------# ");
+
+        UUID partnerIdUp = getPartnerIdInput();
+
+        System.out.print("Enter company name: ");
+        String companyName = scanner.nextLine();
+
+        System.out.print("Enter commercial contact: ");
+        String commercialContact = scanner.nextLine();
+
+        TransportType transportType = getTransportTypeInput();
+        if (transportType == null) return;
+
+        System.out.print("Enter geographical zone: ");
+        String geographicalZone = scanner.nextLine();
+
+        System.out.print("Enter special conditions: ");
+        String specialConditions = scanner.nextLine();
+
+        try {
+            partnerService.updatePartner(partnerIdUp, companyName, commercialContact,
+                    transportType, geographicalZone, specialConditions);
+            System.out.println("updated");
+            } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+    }
+
+
+    private UUID getPartnerIdInput(){
+        while (true){
+            System.out.println("Enter ID of partner: ");
+            String partnerIdInput = scanner.nextLine();
+            try {
+                return UUID.fromString(partnerIdInput);
+            }catch (IllegalArgumentException e){
+                System.out.println("Invalid UUID format!");
+            }
+        }
+    }
+
+    private PartnerStatus getPartnerStatusInput(){
+        while (true){
+            System.out.println("Enter New status : ");
+            String statusInput = scanner.nextLine().trim().toUpperCase();
+            try {
+                return PartnerStatus.valueOf(statusInput);
+            }catch (IllegalArgumentException e){
+                System.out.println("Invalid status! ");
+            }
+        }
+    }
     private String getCompanyNameInput() {
         while (true) {
             System.out.print("Enter Company Name: ");
@@ -119,128 +223,5 @@ public class PartnerUi {
         }
     }
 
-    public void displayPartnerByName() {
-        System.out.print("Enter partner company name: ");
-        String companyName = scanner.nextLine();
-        Partner partner = repository.findPartnerByName(companyName);
-        if (partner != null) {
-            System.out.println("Partner found:");
-            System.out.println("ID: " + partner.getId());
-            System.out.println("Company Name: " + partner.getCompanyName());
-            System.out.println("Commercial Name: " + partner.getCommercialContact());
-            System.out.println("Transport Type: " + partner.getTransportType());
-            System.out.println("Geographical Zone: " + partner.getGeographical_zone());
-            System.out.println("Special Conditions: " + partner.getSpecialConditions());
-            System.out.println("Status: " + partner.getStatus());
-            System.out.println("Creation Date: " + partner.getCreationDate());
-        } else {
-            System.out.println("No partner found with company name: " + companyName);
-        }
-    }
 
-    public void UpdatePartnerStatus(){
-
-        System.out.println("#-------------- Update Partner Status --------------# ");
-
-        System.out.print("Enter ID of partner :");
-        String partnerIdInput = scanner.nextLine();
-        UUID partnerId;
-        try {
-            partnerId = UUID.fromString(partnerIdInput);
-
-        } catch (IllegalArgumentException e){
-            System.out.println("invalid uuid format !");
-            return;
-
-        }
-
-        System.out.println("Enter New status ");
-        String StatusInput = scanner.nextLine().trim().toUpperCase();
-
-        PartnerStatus newStatus ;
-        try {
-            newStatus = PartnerStatus.valueOf(StatusInput);
-
-        } catch (IllegalArgumentException e) {
-            System.out.println("invalid status !");
-            return;
-        }
-
-        repository.UpdatePartnerStatus(partnerId, newStatus);
-
-    }
-
-    public void deletePartner(){
-
-        System.out.println("#-------------- Delete Partner  --------------# ");
-
-        System.out.print("Enter ID of partner :");
-        String partnerIdInput = scanner.nextLine();
-        UUID partnerIdDel;
-        try {
-            partnerIdDel = UUID.fromString(partnerIdInput);
-
-        } catch (IllegalArgumentException e){
-            System.out.println("invalid uuid format !");
-            return;
-
-        }
-
-        boolean isDeleted = repository.deletePartner(partnerIdDel);
-
-        if (isDeleted) {
-            System.out.println("Partner was deleted .");
-        } else {
-            System.out.println("Partner ID does not exist.");
-        }
-
-    }
-
-
-    public void  updatePartner(){
-
-        System.out.println("#-------------- Delete Partner  --------------# ");
-
-        System.out.print("Enter ID of partner :");
-        String partnerIdInput = scanner.nextLine();
-        UUID partnerIdUp;
-        try {
-            partnerIdUp = UUID.fromString(partnerIdInput);
-
-        } catch (IllegalArgumentException e){
-            System.out.println("invalid uuid format !");
-            return;
-
-        }
-
-        System.out.print("Enter company name: ");
-        String companyName = scanner.nextLine();
-
-        System.out.print("Enter commercial contact: ");
-        String commercialContact = scanner.nextLine();
-
-        System.out.print("Enter transport type (e.g., BUS, TRAIN): ");
-        String transportTypeInput = scanner.nextLine();
-        TransportType transportType;
-        try {
-            transportType = TransportType.valueOf(transportTypeInput.toUpperCase());
-        } catch (IllegalArgumentException e) {
-            System.out.println("Invalid transport type.");
-            return;
-        }
-
-        System.out.print("Enter geographical zone: ");
-        String geographicalZone = scanner.nextLine();
-
-        System.out.print("Enter special conditions: ");
-        String specialConditions = scanner.nextLine();
-
-        boolean success = repository.updatePartner(partnerIdUp, companyName, commercialContact, transportType, geographicalZone, specialConditions);
-        if (success) {
-            System.out.println("Partner details updated successfully.");
-        } else {
-            System.out.println("Failed to update partner details.");
-        }
-
-    }
 }

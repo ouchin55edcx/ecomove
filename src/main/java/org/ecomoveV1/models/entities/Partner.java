@@ -35,6 +35,8 @@ public class Partner {
     public Partner() {
     }
 
+
+
     public UUID getId() {
         return id;
     }

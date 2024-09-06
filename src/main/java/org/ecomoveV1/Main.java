@@ -3,6 +3,7 @@ package org.ecomoveV1;
 import org.ecomoveV1.presentations.*;
 import org.ecomoveV1.repositories.*;
 import org.ecomoveV1.repositories.impl.*;
+import org.ecomoveV1.services.PartnerService;
 
 import java.util.Scanner;
 
@@ -15,7 +16,11 @@ public class Main {
 
     public static void main(String[] args) {
         final Menu menu = new Menu();
-        final PartnerUi partnerUi = new PartnerUi(repository);
+        PartnerRepository partnerRepository = new PartnerRepositoryImpl();
+        PartnerService partnerService = new PartnerService(partnerRepository);
+        PartnerUi partnerUi = new PartnerUi(partnerService);
+
+
         final ContractUi contractUi = new ContractUi(repositoryCnt);
         final PromotionUi promotionUi = new PromotionUi(repositoryPro);
         final TicketUi ticketUi = new TicketUi(repositoryTck);
@@ -64,7 +69,7 @@ public class Main {
                     partnerUi.displayPartnerByName();
                     break;
                 case 4:
-                    partnerUi.UpdatePartnerStatus();
+                   partnerUi.UpdatePartnerStatus();
                     break;
                 case 5:
                     partnerUi.deletePartner();
