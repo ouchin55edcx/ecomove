@@ -28,5 +28,22 @@ public class ContractService {
         return contactRepository.findAllContractsWithCompanyName();
     }
 
+    public List<Contract> findContractsByPartnerId(UUID partnerId) {
+        return contactRepository.findContractsByPartnerId(partnerId);
+    }
+
+    public Contract getContractById(UUID contractId) {
+        return  contactRepository.getContractById(contractId);
+    }
+
+    public boolean updateContractById(UUID contractId, UUID partnerId, LocalDate startDate, LocalDate endDate,
+                                  BigDecimal specialRate, String agreementConditions, boolean renewable, ContractStatus status) {
+        Contract updatedContract = new Contract(contractId, partnerId, startDate, endDate, specialRate, agreementConditions, renewable, status);
+        return contactRepository.updateContractById(contractId, updatedContract);
+    }
+
+    public boolean deleteContractById(UUID contractId) {
+        return contactRepository.deleteContractById(contractId);
+    }
 
 }

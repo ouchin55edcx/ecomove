@@ -102,13 +102,13 @@ public class Main {
                     contractUi.displayContractDetails();
                     break;
                 case 3:
-                    //contractUi.displayContractsByPartnerId();
+                    contractUi.displayContractsByPartnerId();
                     break;
                 case 4:
-                    //contractUi.displayContractById();
+                    contractUi.displayContractById();
                     break;
                 case 5:
-                    //contractUi.updateContractById();
+                    contractUi.updateContractById();
                     break;
                 case 6:
                     //contractUi.deleteContractById();

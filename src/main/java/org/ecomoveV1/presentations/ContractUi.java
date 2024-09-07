@@ -119,165 +119,157 @@ public class ContractUi {
             }
         }
     }
-//
-//
-//    public void displayContractsByPartnerId() {
-//        Scanner scanner = new Scanner(System.in);
-//
-//        System.out.print("Enter Partner ID: ");
-//        String partnerIdInput = scanner.nextLine();
-//
-//        try {
-//            UUID partnerId = UUID.fromString(partnerIdInput);
-//            List<Contract> contracts = repository.findContractsByPartnerId(partnerId); // Changed to Contract
-//
-//            if (contracts.isEmpty()) {
-//                System.out.println("No contracts found for this partner ID.");
-//            } else {
-//                System.out.println("#------------- Contracts for Partner ID: " + partnerId + " -------------#");
-//
-//                for (Contract contract : contracts) {
-//                    System.out.println("Contract ID: " + contract.getId());
-//                    System.out.println("Start Date: " + contract.getStartDate());
-//                    System.out.println("End Date: " + contract.getEndDate());
-//                    System.out.println("Special Rate: " + contract.getSpecialRate());
-//                    System.out.println("Agreement Conditions: " + contract.getAgreementConditions());
-//                    System.out.println("Renewable: " + (contract.isRenewable() ? "Yes" : "No"));
-//                    System.out.println("Status: " + contract.getStatus());
-//                    System.out.println("#---------------------------------------------#");
-//                }
-//            }
-//        } catch (IllegalArgumentException e) {
-//            System.out.println("Invalid Partner ID format.");
-//        }
-//    }
-//
-//
-//    public void displayContractById() {
-//        Scanner scanner = new Scanner(System.in);
-//
-//        System.out.print("Enter Contract ID: ");
-//        String contractIdInput = scanner.nextLine();
-//
-//        try {
-//            UUID contractId = UUID.fromString(contractIdInput);
-//            Contract contract = repository.getContractById(contractId);
-//
-//            if (contract == null) {
-//                System.out.println("No contract found with this ID.");
-//            } else {
-//                System.out.println("#------------- Contract ID: " + contract.getId() + " -------------#");
-//                System.out.println("Partner ID: " + contract.getPartnerId());
-//                System.out.println("Start Date: " + contract.getStartDate());
-//                System.out.println("End Date: " + contract.getEndDate());
-//                System.out.println("Special Rate: " + contract.getSpecialRate());
-//                System.out.println("Agreement Conditions: " + contract.getAgreementConditions());
-//                System.out.println("Renewable: " + (contract.isRenewable() ? "Yes" : "No"));
-//                System.out.println("Status: " + contract.getStatus());
-//                System.out.println("#---------------------------------------------#");
-//            }
-//        } catch (IllegalArgumentException e) {
-//            System.out.println("Invalid Contract ID format.");
-//        }
-//    }
-//
-//
-//    public void updateContractById() {
-//
-//        System.out.print("Enter Contract ID: ");
-//        String contractIdInput = scanner.nextLine();
-//
-//        try {
-//            UUID contractId = UUID.fromString(contractIdInput);
-//
-//            Contract existingContract = repository.getContractById(contractId);
-//            if (existingContract == null) {
-//                System.out.println("No contract found with this ID.");
-//                return;
-//            }
-//
-//            System.out.println("Current Partner ID: " + existingContract.getPartnerId());
-//            System.out.print("Enter new Partner ID (or press Enter to keep current): ");
-//            String partnerIdInput = scanner.nextLine();
-//            UUID newPartnerId = partnerIdInput.isEmpty() ? existingContract.getPartnerId() : UUID.fromString(partnerIdInput);
-//
-//            System.out.println("Current Start Date: " + existingContract.getStartDate());
-//            System.out.print("Enter new Start Date (YYYY-MM-DD) (or press Enter to keep current): ");
-//            String startDateInput = scanner.nextLine();
-//            LocalDate newStartDate = startDateInput.isEmpty() ? existingContract.getStartDate() : LocalDate.parse(startDateInput);
-//
-//            System.out.println("Current End Date: " + existingContract.getEndDate());
-//            System.out.print("Enter new End Date (YYYY-MM-DD) (or press Enter to keep current): ");
-//            String endDateInput = scanner.nextLine();
-//            LocalDate newEndDate = endDateInput.isEmpty() ? existingContract.getEndDate() : LocalDate.parse(endDateInput);
-//
-//            System.out.println("Current Special Rate: " + existingContract.getSpecialRate());
-//            System.out.print("Enter new Special Rate (or press Enter to keep current): ");
-//            String specialRateInput = scanner.nextLine();
-//            BigDecimal newSpecialRate = specialRateInput.isEmpty() ? existingContract.getSpecialRate() : new BigDecimal(specialRateInput);
-//
-//            System.out.println("Current Agreement Conditions: " + existingContract.getAgreementConditions());
-//            System.out.print("Enter new Agreement Conditions (or press Enter to keep current): ");
-//            String agreementConditionsInput = scanner.nextLine();
-//            String newAgreementConditions = agreementConditionsInput.isEmpty() ? existingContract.getAgreementConditions() : agreementConditionsInput;
-//
-//            System.out.println("Current Renewable: " + (existingContract.isRenewable() ? "Yes" : "No"));
-//            System.out.print("Is it Renewable? (Yes/No) (or press Enter to keep current): ");
-//            String renewableInput = scanner.nextLine();
-//            boolean newRenewable = renewableInput.isEmpty() ? existingContract.isRenewable() : renewableInput.equalsIgnoreCase("Yes");
-//
-//            System.out.println("Current Status: " + existingContract.getStatus());
-//            System.out.print("Enter new Status (ACTIVE/TERMINATED/SUSPENDED) (or press Enter to keep current): ");
-//            String statusInput = scanner.nextLine();
-//            ContractStatus newStatus = statusInput.isEmpty() ? existingContract.getStatus() : ContractStatus.valueOf(statusInput);
-//
-//            Contract updatedContract = new Contract();
-//            updatedContract.setPartnerId(newPartnerId);
-//            updatedContract.setStartDate(newStartDate);
-//            updatedContract.setEndDate(newEndDate);
-//            updatedContract.setSpecialRate(newSpecialRate);
-//            updatedContract.setAgreementConditions(newAgreementConditions);
-//            updatedContract.setRenewable(newRenewable);
-//            updatedContract.setStatus(newStatus);
-//
-//            boolean success = repository.updateContractById(contractId, updatedContract);
-//            if (success) {
-//                System.out.println("Contract updated successfully.");
-//            } else {
-//                System.out.println("Contract update failed.");
-//            }
-//        } catch (IllegalArgumentException e) {
-//            System.out.println("Invalid Contract ID format.");
-//        }
-//    }
-//
-//    public void deleteContractById() {
-//        Scanner scanner = new Scanner(System.in);
-//
-//        System.out.print("Enter Contract ID to delete: ");
-//        String contractIdInput = scanner.nextLine();
-//
-//        try {
-//            UUID contractId = UUID.fromString(contractIdInput);
-//
-//            System.out.print("Are you sure you want to delete this contract? (yes/no): ");
-//            String confirmation = scanner.nextLine();
-//
-//            if (confirmation.equalsIgnoreCase("yes")) {
-//                boolean success = repository.deleteContractById(contractId);
-//
-//                if (success) {
-//                    System.out.println("Contract deleted successfully.");
-//                } else {
-//                    System.out.println("Contract not found or could not be deleted.");
-//                }
-//            } else {
-//                System.out.println("Contract deletion canceled.");
-//            }
-//        } catch (IllegalArgumentException e) {
-//            System.out.println("Invalid Contract ID format.");
-//        }
-//    }
+
+
+    public void displayContractsByPartnerId() {
+
+        System.out.print("Enter Partner ID: ");
+        String partnerIdInput = scanner.nextLine();
+
+        try {
+            UUID partnerId = UUID.fromString(partnerIdInput);
+            List<Contract> contracts = contractService.findContractsByPartnerId(partnerId);
+
+            if (contracts.isEmpty()) {
+                System.out.println("No contracts found for this partner ID.");
+            } else {
+                System.out.println("#------------- Contracts for Partner ID: " + partnerId + " -------------#");
+
+                for (Contract contract : contracts) {
+                    System.out.println("Contract ID: " + contract.getId());
+                    System.out.println("Start Date: " + contract.getStartDate());
+                    System.out.println("End Date: " + contract.getEndDate());
+                    System.out.println("Special Rate: " + contract.getSpecialRate());
+                    System.out.println("Agreement Conditions: " + contract.getAgreementConditions());
+                    System.out.println("Renewable: " + (contract.isRenewable() ? "Yes" : "No"));
+                    System.out.println("Status: " + contract.getStatus());
+                    System.out.println("#---------------------------------------------#");
+                }
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid Partner ID format.");
+        }
+    }
+
+
+    public void displayContractById() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter Contract ID: ");
+        String contractIdInput = scanner.nextLine();
+
+        try {
+            UUID contractId = UUID.fromString(contractIdInput);
+            Contract contract = contractService.getContractById(contractId);
+
+            if (contract == null) {
+                System.out.println("No contract found with this ID.");
+            } else {
+                System.out.println("#------------- Contract ID: " + contract.getId() + " -------------#");
+                System.out.println("Partner ID: " + contract.getPartnerId());
+                System.out.println("Start Date: " + contract.getStartDate());
+                System.out.println("End Date: " + contract.getEndDate());
+                System.out.println("Special Rate: " + contract.getSpecialRate());
+                System.out.println("Agreement Conditions: " + contract.getAgreementConditions());
+                System.out.println("Renewable: " + (contract.isRenewable() ? "Yes" : "No"));
+                System.out.println("Status: " + contract.getStatus());
+                System.out.println("#---------------------------------------------#");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid Contract ID format.");
+        }
+    }
+
+
+    public void updateContractById() {
+
+        System.out.print("Enter Contract ID: ");
+        String contractIdInput = scanner.nextLine();
+
+        try {
+            UUID contractId = UUID.fromString(contractIdInput);
+
+            Contract existingContract = contractService.getContractById(contractId);
+            if (existingContract == null) {
+                System.out.println("No contract found with this ID.");
+                return;
+            }
+
+            System.out.println("Current Partner ID: " + existingContract.getPartnerId());
+            System.out.print("Enter new Partner ID (or press Enter to keep current): ");
+            String partnerIdInput = scanner.nextLine();
+            UUID newPartnerId = partnerIdInput.isEmpty() ? existingContract.getPartnerId() : UUID.fromString(partnerIdInput);
+
+            System.out.println("Current Start Date: " + existingContract.getStartDate());
+            System.out.print("Enter new Start Date (YYYY-MM-DD) (or press Enter to keep current): ");
+            String startDateInput = scanner.nextLine();
+            LocalDate newStartDate = startDateInput.isEmpty() ? existingContract.getStartDate() : LocalDate.parse(startDateInput);
+
+            System.out.println("Current End Date: " + existingContract.getEndDate());
+            System.out.print("Enter new End Date (YYYY-MM-DD) (or press Enter to keep current): ");
+            String endDateInput = scanner.nextLine();
+            LocalDate newEndDate = endDateInput.isEmpty() ? existingContract.getEndDate() : LocalDate.parse(endDateInput);
+
+            System.out.println("Current Special Rate: " + existingContract.getSpecialRate());
+            System.out.print("Enter new Special Rate (or press Enter to keep current): ");
+            String specialRateInput = scanner.nextLine();
+            BigDecimal newSpecialRate = specialRateInput.isEmpty() ? existingContract.getSpecialRate() : new BigDecimal(specialRateInput);
+
+            System.out.println("Current Agreement Conditions: " + existingContract.getAgreementConditions());
+            System.out.print("Enter new Agreement Conditions (or press Enter to keep current): ");
+            String agreementConditionsInput = scanner.nextLine();
+            String newAgreementConditions = agreementConditionsInput.isEmpty() ? existingContract.getAgreementConditions() : agreementConditionsInput;
+
+            System.out.println("Current Renewable: " + (existingContract.isRenewable() ? "Yes" : "No"));
+            System.out.print("Is it Renewable? (Yes/No) (or press Enter to keep current): ");
+            String renewableInput = scanner.nextLine();
+            boolean newRenewable = renewableInput.isEmpty() ? existingContract.isRenewable() : renewableInput.equalsIgnoreCase("Yes");
+
+            System.out.println("Current Status: " + existingContract.getStatus());
+            System.out.print("Enter new Status (ACTIVE/TERMINATED/SUSPENDED) (or press Enter to keep current): ");
+            String statusInput = scanner.nextLine();
+            ContractStatus newStatus = statusInput.isEmpty() ? existingContract.getStatus() : ContractStatus.valueOf(statusInput);
+
+
+            boolean success = contractService.updateContractById(contractId, newPartnerId, newStartDate, newEndDate,
+                    newSpecialRate, newAgreementConditions, newRenewable, newStatus);
+            if (success) {
+                System.out.println("Contract updated successfully.");
+            } else {
+                System.out.println("Contract update failed.");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid Contract ID format.");
+        }
+    }
+
+    public void deleteContractById() {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter Contract ID to delete: ");
+        String contractIdInput = scanner.nextLine();
+
+        try {
+            UUID contractId = UUID.fromString(contractIdInput);
+
+            System.out.print("Are you sure you want to delete this contract? (yes/no): ");
+            String confirmation = scanner.nextLine();
+
+            if (confirmation.equalsIgnoreCase("yes")) {
+                boolean success = contractService.deleteContractById(contractId);
+
+                if (success) {
+                    System.out.println("Contract deleted successfully.");
+                } else {
+                    System.out.println("Contract not found or could not be deleted.");
+                }
+            } else {
+                System.out.println("Contract deletion canceled.");
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid Contract ID format.");
+        }
+    }
 
 
 }
