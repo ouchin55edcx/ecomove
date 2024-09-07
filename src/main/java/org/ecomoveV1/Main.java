@@ -6,6 +6,7 @@ import org.ecomoveV1.repositories.impl.*;
 import org.ecomoveV1.services.ContractService;
 import org.ecomoveV1.services.PartnerService;
 import org.ecomoveV1.services.PromotionService;
+import org.ecomoveV1.services.TicketService;
 
 import java.util.Scanner;
 
@@ -14,7 +15,7 @@ public class Main {
     private static final PartnerRepository partnerRepository = new PartnerRepositoryImpl();
     private static final ContactRepository contactRepository = new ContactRepositoryImpl();
     private static final PromotionalOfferRepository promotionalOfferRepository = new PromotionalOfferRepositoryImpl();
-    private static final TicketRepository repositoryTck = new TicketRepositoryImpl();
+    private static final TicketRepository ticketRepository = new TicketRepositoryImpl();
 
     public static void main(String[] args) {
         final Menu menu = new Menu();
@@ -22,13 +23,14 @@ public class Main {
         PartnerService partnerService = new PartnerService(partnerRepository);
         ContractService contractService = new ContractService(contactRepository);
         PromotionService promotionService = new PromotionService(promotionalOfferRepository);
+        TicketService ticketService = new TicketService(ticketRepository);
         
         PartnerUi partnerUi = new PartnerUi(partnerService);
         ContractUi contractUi = new ContractUi(contractService);
         PromotionUi promotionUi = new PromotionUi(promotionService);
+        TicketUi ticketUi = new TicketUi(ticketService);
 
 
-        final TicketUi ticketUi = new TicketUi(repositoryTck);
         boolean running = true;
 
         while (running) {

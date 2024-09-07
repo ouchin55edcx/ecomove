@@ -5,6 +5,7 @@ import org.ecomoveV1.models.enums.TicketStatus;
 import org.ecomoveV1.models.enums.TransportType;
 import org.ecomoveV1.repositories.TicketRepository;
 import org.ecomoveV1.repositories.impl.TicketRepositoryImpl;
+import org.ecomoveV1.services.TicketService;
 
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -17,11 +18,11 @@ import java.util.UUID;
 
 public class TicketUi {
 
-    final private TicketRepository repository ;
+    private final TicketService ticketService;
     final  private Scanner scanner = new Scanner(System.in);
 
-    public TicketUi(TicketRepository repository) {
-        this.repository = repository;
+    public TicketUi(TicketService ticketService) {
+        this.ticketService = ticketService;
     }
 
 
@@ -36,18 +37,13 @@ public class TicketUi {
         LocalDate saleDate = getSaleDate();
         TicketStatus ticketStatus = getTicketStatusInput();
 
-        Ticket newTicket = new Ticket(
-                UUID.randomUUID(),
-                contractId,
+
+        ticketService.addTicket( contractId,
                 transportType,
                 purchasePrice,
                 salePrice,
                 saleDate,
-                ticketStatus
-
-        );
-
-        repository.addTicket(newTicket);
+                ticketStatus);
         System.out.println(" New Ticket added successfully!");
 
     }
@@ -128,7 +124,7 @@ public class TicketUi {
     }
 
     public void ListAllTicket(){
-        List<Ticket> tickets = repository.getAllticket();
+        List<Ticket> tickets = ticketService.getAlltickets();
         if (tickets.isEmpty()){
             System.out.println("No ticket found ");
         }else {
@@ -151,17 +147,14 @@ public class TicketUi {
         LocalDate saleDate = getSaleDate();
         TicketStatus ticketStatus = getTicketStatusInput();
 
-        Ticket updatedTicket = new Ticket(
-                id,
+
+        ticketService.updateTicket(id,
                 contractId,
                 transportType,
                 purchasePrice,
                 salePrice,
                 saleDate,
-                ticketStatus
-        );
-
-        repository.updateTicket(id, updatedTicket);
+                ticketStatus);
         System.out.println("Ticket updated successfully!");
     }
 
@@ -184,7 +177,7 @@ public class TicketUi {
         UUID id = getTicketIdInput();
 
         try {
-            repository.deleteTicket(id);
+            ticketService.deleteTicket(id);
             System.out.println("Ticket deleted successfully!");
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
@@ -197,7 +190,7 @@ public class TicketUi {
         UUID id = getTicketIdInput();
 
         try {
-            Ticket ticket = repository.getTicketById(id);
+            Ticket ticket = ticketService.getTicketById(id);
             System.out.println("Ticket Details:");
             System.out.println("ID: " + ticket.getTicketId());
             System.out.println("Contract ID: " + ticket.getContractId());
