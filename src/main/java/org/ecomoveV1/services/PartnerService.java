@@ -47,5 +47,6 @@ public class PartnerService {
                                  TransportType transportType, String geographicalZone,
                                  String specialConditions){
         return partnerRepository.updatePartner(partnerId, companyName, commercialContact, transportType, geographicalZone, specialConditions);
+
     }
 }

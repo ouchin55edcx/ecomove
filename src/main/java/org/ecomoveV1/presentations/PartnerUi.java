@@ -51,8 +51,6 @@ public class PartnerUi {
     }
 
 
-
-
     public void displayPartnerByName() {
         System.out.print("Enter partner company name: ");
         String companyName = scanner.nextLine();
@@ -158,6 +156,7 @@ public class PartnerUi {
             }
         }
     }
+
     private String getCompanyNameInput() {
         while (true) {
             System.out.print("Enter Company Name: ");

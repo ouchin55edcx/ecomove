@@ -3,25 +3,28 @@ package org.ecomoveV1;
 import org.ecomoveV1.presentations.*;
 import org.ecomoveV1.repositories.*;
 import org.ecomoveV1.repositories.impl.*;
+import org.ecomoveV1.services.ContractService;
 import org.ecomoveV1.services.PartnerService;
 
 import java.util.Scanner;
 
 public class Main {
     public static final Scanner scanner = new Scanner(System.in);
-    private static final PartnerRepository repository = new PartnerRepositoryImpl();
-    private static final ContactRepository repositoryCnt = new ContactRepositoryImpl();
+    private static final PartnerRepository partnerRepository = new PartnerRepositoryImpl();
+    private static final ContactRepository contactRepository = new ContactRepositoryImpl();
     private static final PromotionalOfferRepository repositoryPro = new PromotionalOfferRepositoryImpl();
     private static final TicketRepository repositoryTck = new TicketRepositoryImpl();
 
     public static void main(String[] args) {
         final Menu menu = new Menu();
-        PartnerRepository partnerRepository = new PartnerRepositoryImpl();
+
         PartnerService partnerService = new PartnerService(partnerRepository);
+        ContractService contractService = new ContractService(contactRepository);
+        
         PartnerUi partnerUi = new PartnerUi(partnerService);
+        ContractUi contractUi = new ContractUi(contractService);
 
 
-        final ContractUi contractUi = new ContractUi(repositoryCnt);
         final PromotionUi promotionUi = new PromotionUi(repositoryPro);
         final TicketUi ticketUi = new TicketUi(repositoryTck);
         boolean running = true;
@@ -96,19 +99,19 @@ public class Main {
                     contractUi.addContract();
                     break;
                 case 2:
-                    contractUi.displayContractDetails();
+                    //contractUi.displayContractDetails();
                     break;
                 case 3:
-                    contractUi.displayContractsByPartnerId();
+                    //contractUi.displayContractsByPartnerId();
                     break;
                 case 4:
-                    contractUi.displayContractById();
+                    //contractUi.displayContractById();
                     break;
                 case 5:
-                    contractUi.updateContractById();
+                    //contractUi.updateContractById();
                     break;
                 case 6:
-                    contractUi.deleteContractById();
+                    //contractUi.deleteContractById();
                     break;
                 case 0:
                     inContractMenu = false;
