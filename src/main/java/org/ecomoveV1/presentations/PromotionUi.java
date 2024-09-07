@@ -4,6 +4,9 @@ import org.ecomoveV1.models.entities.PromotionalOffer;
 import org.ecomoveV1.models.enums.OfferStatus;
 import org.ecomoveV1.models.enums.ReductionType;
 import org.ecomoveV1.repositories.PromotionalOfferRepository;
+import org.ecomoveV1.services.ContractService;
+import org.ecomoveV1.services.PartnerService;
+import org.ecomoveV1.services.PromotionService;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -15,19 +18,18 @@ import java.util.UUID;
 
 public class PromotionUi {
 
-    final private PromotionalOfferRepository repository ;
+
+    final private PromotionService promotionService;
     final private Scanner scanner = new Scanner(System.in);
 
-
-    public PromotionUi(PromotionalOfferRepository repository) {
-        this.repository = repository;
-
+    public PromotionUi(PromotionService promotionService) {
+        this.promotionService = promotionService;
     }
+
 
     public void addPromotion(){
         System.out.println("#------------ Add New Promotion : -------------#");
 
-        UUID id = UUID.randomUUID();
         UUID contractId = getContractIdInput();
         String offerName = getOfferNameInput();
         String description = getDescriptionInput();
@@ -39,20 +41,8 @@ public class PromotionUi {
         OfferStatus offerStatus = getOfferStatusInput();
 
 
-        PromotionalOffer newPromotionalOffer = new PromotionalOffer(
-                UUID.randomUUID(),
-                contractId,
-                offerName,
-                description,
-                startDate,
-                endDate,
-                reductionType,
-                reductionValue,
-                conditions,
-                offerStatus
-        );
 
-        repository.addPromotion(newPromotionalOffer);
+        promotionService.addPromotion(contractId, offerName, description, startDate, endDate, reductionType, reductionValue, conditions, offerStatus);
         System.out.println("New PromotionalOffer added successfully!");
 
     }
@@ -167,7 +157,7 @@ public class PromotionUi {
 
 
     public void listAllPromotionalOffers() {
-        List<PromotionalOffer> offers = repository.getAllPromotionalOffers();
+        List<PromotionalOffer> offers = promotionService.getAllPromotionalOffers();
         if (offers.isEmpty()) {
             System.out.println("No promotional offers found.");
         } else {
@@ -185,7 +175,7 @@ public class PromotionUi {
 
         try {
             UUID id = UUID.fromString(idString);
-            PromotionalOffer offer = repository.getPromotionalOfferById(id);
+            PromotionalOffer offer = promotionService.getPromotionalOfferById(id);
 
             if (offer != null) {
                 System.out.println("\nPromotion Details:");
@@ -213,7 +203,7 @@ public class PromotionUi {
 
         try {
             UUID id = UUID.fromString(idString);
-            PromotionalOffer offer = repository.getPromotionalOfferById(id);
+            PromotionalOffer offer = promotionService.getPromotionalOfferById(id);
 
             if (offer != null) {
                 System.out.println("Enter new details (press Enter to keep current value):");
@@ -287,7 +277,7 @@ public class PromotionUi {
                     }
                 }
 
-                repository.updatePromotionalOffer(offer);
+                promotionService.updatePromotionalOffer(offer);
                 System.out.println("Promotional offer updated successfully.");
             } else {
                 System.out.println("No promotion found with ID: " + idString);
@@ -303,7 +293,7 @@ public class PromotionUi {
 
         try {
             UUID id = UUID.fromString(idString);
-            PromotionalOffer offer = repository.getPromotionalOfferById(id);
+            PromotionalOffer offer = promotionService.getPromotionalOfferById(id);
 
             if (offer != null) {
                 System.out.println("Are you sure you want to delete this offer? (y/n)");
@@ -312,7 +302,7 @@ public class PromotionUi {
 
                 String confirmation = scanner.nextLine().trim().toLowerCase();
                 if (confirmation.equals("y")) {
-                    repository.deletePromotionalOffer(id);
+                    promotionService.deletePromotionalOffer(id);
                     System.out.println("Promotional offer deleted successfully.");
                 } else {
                     System.out.println("Deletion cancelled.");
