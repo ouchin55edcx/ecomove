@@ -99,7 +99,7 @@ public class Main {
                     contractUi.addContract();
                     break;
                 case 2:
-                    //contractUi.displayContractDetails();
+                    contractUi.displayContractDetails();
                     break;
                 case 3:
                     //contractUi.displayContractsByPartnerId();

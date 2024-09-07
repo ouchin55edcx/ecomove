@@ -6,6 +6,7 @@ import org.ecomoveV1.repositories.ContactRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 public class ContractService {
@@ -21,6 +22,10 @@ public class ContractService {
         ContractStatus status = ContractStatus.ACTIVE;
         Contract newContract = new Contract(id, partnerId, startDate, endDate, specialRate, agreementConditions, renewable, status);
         contactRepository.addContract(newContract);
+    }
+
+    public List<String> getAllContractsWithCompanyName(){
+        return contactRepository.findAllContractsWithCompanyName();
     }
 
 
