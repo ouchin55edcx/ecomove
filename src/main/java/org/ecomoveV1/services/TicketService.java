@@ -18,10 +18,11 @@ public class TicketService {
         this.ticketRepository = ticketRepository;
     }
 
-    public void addTicket(UUID contractId, TransportType transportType, BigDecimal purchasePrice,
+    public void addTicket(UUID contractId, UUID journeyId,  TransportType transportType, BigDecimal purchasePrice,
                           BigDecimal salePrice, LocalDate saleDate, TicketStatus ticketStatus) {
         Ticket newTicket = new Ticket(
                 UUID.randomUUID(),
+                journeyId,
                 contractId,
                 transportType,
                 purchasePrice,
@@ -37,11 +38,12 @@ public class TicketService {
         return ticketRepository.getAllticket();
     }
 
-    public void updateTicket(UUID id, UUID contractId, TransportType transportType, BigDecimal purchasePrice,
+    public void updateTicket(UUID id, UUID contractId,UUID journeyId, TransportType transportType, BigDecimal purchasePrice,
                              BigDecimal salePrice, LocalDate saleDate, TicketStatus ticketStatus) {
         Ticket updatedTicket = new Ticket(
                 id,
                 contractId,
+                journeyId,
                 transportType,
                 purchasePrice,
                 salePrice,

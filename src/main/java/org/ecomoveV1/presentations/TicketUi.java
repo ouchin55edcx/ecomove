@@ -1,5 +1,6 @@
 package org.ecomoveV1.presentations;
 
+import org.ecomoveV1.models.entities.Journey;
 import org.ecomoveV1.models.entities.Ticket;
 import org.ecomoveV1.models.enums.TicketStatus;
 import org.ecomoveV1.models.enums.TransportType;
@@ -31,6 +32,7 @@ public class TicketUi {
 
         UUID id = UUID.randomUUID();
         UUID contractId = getContcractIdInput();
+        UUID journeyId = getJourneyIdInput();
         TransportType transportType = getTransportTypeInput();
         BigDecimal purchasePrice = getPurchasePrice();
         BigDecimal salePrice = getSalePrice();
@@ -38,7 +40,7 @@ public class TicketUi {
         TicketStatus ticketStatus = getTicketStatusInput();
 
 
-        ticketService.addTicket( contractId,
+        ticketService.addTicket( contractId, journeyId,
                 transportType,
                 purchasePrice,
                 salePrice,
@@ -51,6 +53,18 @@ public class TicketUi {
     private UUID getContcractIdInput() {
         while (true) {
             System.out.print("Enter Contract ID: ");
+            String input = scanner.nextLine().trim();
+            try {
+                return UUID.fromString(input);
+            } catch (IllegalArgumentException e) {
+                System.out.println("Invalid UUID format. Please try again.");
+            }
+        }
+    }
+
+    private UUID getJourneyIdInput() {
+        while (true) {
+            System.out.print("Enter Journey ID: ");
             String input = scanner.nextLine().trim();
             try {
                 return UUID.fromString(input);
@@ -141,6 +155,7 @@ public class TicketUi {
 
         UUID id = getTicketIdInput();
         UUID contractId = getContcractIdInput();
+        UUID journeyId = getJourneyIdInput();
         TransportType transportType = getTransportTypeInput();
         BigDecimal purchasePrice = getPurchasePrice();
         BigDecimal salePrice = getSalePrice();
@@ -149,6 +164,7 @@ public class TicketUi {
 
 
         ticketService.updateTicket(id,
+                journeyId,
                 contractId,
                 transportType,
                 purchasePrice,

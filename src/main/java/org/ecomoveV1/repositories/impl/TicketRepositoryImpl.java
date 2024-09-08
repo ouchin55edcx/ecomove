@@ -19,19 +19,20 @@ public class TicketRepositoryImpl implements TicketRepository {
     @Override
     public void addTicket(Ticket ticket) {
 
-        String query = "INSERT INTO "+tableName+" (id, contract_id, transport_type, purchase_price, sale_price, sale_date, status) " +
-                "VALUES (?, ?, ?::transport_type, ?, ?, ?, ?::ticket_status)";
+        String query = "INSERT INTO "+tableName+" (id, contract_id,journey_id, transport_type, purchase_price, sale_price, sale_date, status) " +
+                "VALUES (?, ?,?, ?::transport_type, ?, ?, ?, ?::ticket_status)";
 
         boolean added = false;
         try(PreparedStatement pstmt = connection.prepareStatement(query)) {
 
             pstmt.setObject(1, ticket.getTicketId());
             pstmt.setObject(2, ticket.getContractId());
-            pstmt.setString(3, ticket.getTransportType().name());
-            pstmt.setBigDecimal(4, ticket.getPurchasePrice());
-            pstmt.setBigDecimal(5, ticket.getSalePrice());
-            pstmt.setDate(6, java.sql.Date.valueOf(ticket.getSaleDate()));
-            pstmt.setString(7, ticket.getTicketStatus().name());
+            pstmt.setObject(3, ticket.getJourneyId());
+            pstmt.setString(4, ticket.getTransportType().name());
+            pstmt.setBigDecimal(5, ticket.getPurchasePrice());
+            pstmt.setBigDecimal(6, ticket.getSalePrice());
+            pstmt.setDate(7, java.sql.Date.valueOf(ticket.getSaleDate()));
+            pstmt.setString(8, ticket.getTicketStatus().name());
 
             int affectedRows = pstmt.executeUpdate();
             added = (affectedRows > 0);
@@ -50,13 +51,14 @@ public class TicketRepositoryImpl implements TicketRepository {
             ResultSet resultSet = stmt.executeQuery(query);
             while (resultSet.next()) {
                 Ticket ticket = new Ticket(
-                        resultSet.getObject("id", UUID.class), // Assuming id is a UUID
-                        resultSet.getObject("contract_id", UUID.class), // Assuming contract_id is a UUID
-                        TransportType.valueOf(resultSet.getString("transport_type")), // Assuming TransportType is an enum
+                        resultSet.getObject("id", UUID.class),
+                        resultSet.getObject("contract_id", UUID.class),
+                        resultSet.getObject("journey_id", UUID.class),
+                        TransportType.valueOf(resultSet.getString("transport_type")),
                         resultSet.getBigDecimal("purchase_price"),
                         resultSet.getBigDecimal("sale_price"),
-                        resultSet.getDate("sale_date").toLocalDate(), // Convert java.sql.Date to java.time.LocalDate
-                        TicketStatus.valueOf(resultSet.getString("status")) // Assuming TicketStatus is an enum
+                        resultSet.getDate("sale_date").toLocalDate(),
+                        TicketStatus.valueOf(resultSet.getString("status"))
                 );
                 tickets.add(ticket);
             }
@@ -120,6 +122,7 @@ public class TicketRepositoryImpl implements TicketRepository {
                 return new Ticket(
                         resultSet.getObject("id", UUID.class),
                         resultSet.getObject("contract_id", UUID.class),
+                        resultSet.getObject("journey_id", UUID.class),
                         TransportType.valueOf(resultSet.getString("transport_type")),
                         resultSet.getBigDecimal("purchase_price"),
                         resultSet.getBigDecimal("sale_price"),
