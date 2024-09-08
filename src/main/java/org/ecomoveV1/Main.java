@@ -3,10 +3,7 @@ package org.ecomoveV1;
 import org.ecomoveV1.presentations.*;
 import org.ecomoveV1.repositories.*;
 import org.ecomoveV1.repositories.impl.*;
-import org.ecomoveV1.services.ContractService;
-import org.ecomoveV1.services.PartnerService;
-import org.ecomoveV1.services.PromotionService;
-import org.ecomoveV1.services.TicketService;
+import org.ecomoveV1.services.*;
 
 import java.util.Scanner;
 
@@ -16,6 +13,7 @@ public class Main {
     private static final ContactRepository contactRepository = new ContactRepositoryImpl();
     private static final PromotionalOfferRepository promotionalOfferRepository = new PromotionalOfferRepositoryImpl();
     private static final TicketRepository ticketRepository = new TicketRepositoryImpl();
+    private static final CustomerRepository customerRepository = new CustomerRepositoryImpl();
 
     public static void main(String[] args) {
         final Menu menu = new Menu();
@@ -24,11 +22,13 @@ public class Main {
         ContractService contractService = new ContractService(contactRepository);
         PromotionService promotionService = new PromotionService(promotionalOfferRepository);
         TicketService ticketService = new TicketService(ticketRepository);
+        CustomerService customerService = new CustomerService(customerRepository);
         
         PartnerUi partnerUi = new PartnerUi(partnerService);
         ContractUi contractUi = new ContractUi(contractService);
         PromotionUi promotionUi = new PromotionUi(promotionService);
         TicketUi ticketUi = new TicketUi(ticketService);
+        CustomerUi customerUi = new CustomerUi(customerService);
 
 
         boolean running = true;
@@ -50,6 +50,9 @@ public class Main {
                 case 4:
                     handleTicketMenu(menu, ticketUi);
                     break;
+                case 5:
+                    handleCustomerMenu(menu, customerUi);
+                    break;
                 case 0:
                     running = false;
                     System.out.println("Exiting! Goodbye.");
@@ -57,6 +60,25 @@ public class Main {
                 default:
                     System.out.println("Invalid choice. Please try again.");
             }
+        }
+    }
+
+    private static void handleCustomerMenu(Menu menu, CustomerUi customerUi) {
+        boolean inClientMenu = true;
+        while (inClientMenu){
+            menu.displayClientMenu();
+            int choice = getUserChoice();
+            switch (choice) {
+                case 1:
+                    customerUi.addCustomer();
+                    break;
+                case 0:
+                    inClientMenu = false;
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+
         }
     }
 
@@ -184,28 +206,10 @@ public class Main {
                     System.out.println("Invalid choice. Please try again.");
             }
         }
-
-
-
-        public static void handleClientMenu(){
-            boolean inClientMenu = true;
-            while (inClientMenu){
-                menu.displayClientMenu();
-                int choice = getUserChoice();
-                switch (choice) {
-                    case 1:
-                        //
-                        break;
-                    case 0:
-                        inTicketMenu = false;
-                        break;
-                    default:
-                        System.out.println("Invalid choice. Please try again.");
-                }
-
-            }
-        }
     }
+
+
+
 
     private static int getUserChoice() {
         while (!scanner.hasNextInt()) {

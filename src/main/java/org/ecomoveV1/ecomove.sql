@@ -73,7 +73,7 @@ CREATE TABLE Customer(
     id UUID PRIMARY KEY ,
     first_name VARCHAR(12),
     last_name VARCHAR(12),
-    emil VARCHAR(35),
+    email VARCHAR(35),
     phone_number VARCHAR(13)
 );
 

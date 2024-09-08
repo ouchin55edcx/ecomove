@@ -16,7 +16,7 @@ public class CustomerRepositoryImpl implements CustomerRepository {
 
     @Override
     public void addCustomer(Customer customer) {
-        String query = "INSERT INTO "+tableName+"(id, first_name, last_name, email, phone_number) VALUE(?,?,?,?,?)";
+        String query = "INSERT INTO "+tableName+"(id, first_name, last_name, email, phone_number) VALUES(?,?,?,?,?)";
 
         try (PreparedStatement pstmt = connection.prepareStatement(query)){
             pstmt.setObject(1, customer.getId());
@@ -24,7 +24,6 @@ public class CustomerRepositoryImpl implements CustomerRepository {
             pstmt.setString(3, customer.getLastName());
             pstmt.setString(4, customer.getEmail());
             pstmt.setString(5, customer.getPhoneNumber());
-
 
             pstmt.executeUpdate();
         } catch (SQLException e) {
