@@ -57,15 +57,17 @@ CREATE TABLE promotional_offer (
 
 CREATE TABLE ticket (
     id UUID PRIMARY KEY,
+    journey_id UUID NOT NULL,
     contract_id UUID NOT NULL,
-    transport_type transport_type NOT NULL,
+    transport_type VARCHAR(50) NOT NULL,
     purchase_price DECIMAL(10, 2) NOT NULL,
     sale_price DECIMAL(10, 2) NOT NULL,
     sale_date TIMESTAMP NOT NULL,
-    status ticket_status NOT NULL,
+    status VARCHAR(50) NOT NULL,
+    FOREIGN KEY (journey_id) REFERENCES journey(id),
     FOREIGN KEY (contract_id) REFERENCES contract(id)
-
 );
+
 
 -- Customer Table
 
@@ -75,6 +77,17 @@ CREATE TABLE Customer(
     last_name VARCHAR(12),
     email VARCHAR(35),
     phone_number VARCHAR(13)
+);
+
+
+-- journey ticket
+
+CREATE TABLE journey (
+    id UUID PRIMARY KEY,
+    start_location VARCHAR(255) NOT NULL,
+    end_location VARCHAR(255) NOT NULL,
+    departure_time TIMESTAMP NOT NULL,
+    arrival_time TIMESTAMP NOT NULL
 );
 
 
