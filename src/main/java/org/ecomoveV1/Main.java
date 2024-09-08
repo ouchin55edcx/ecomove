@@ -72,6 +72,9 @@ public class Main {
                 case 1:
                     customerUi.addCustomer();
                     break;
+                case 2 :
+                    customerUi.searchCustomer();
+                    break;
                 case 0:
                     inClientMenu = false;
                     break;

@@ -3,6 +3,7 @@ package org.ecomoveV1.services;
 import org.ecomoveV1.models.entities.Customer;
 import org.ecomoveV1.repositories.CustomerRepository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 public class CustomerService {
@@ -20,5 +21,13 @@ public class CustomerService {
         Customer newCustomer = new Customer(id, firstName, lastName , email, phoneNumber);
         customerRepository.addCustomer(newCustomer);
 
+    }
+
+    public Optional<Customer> findCustomerByEmail(String email) {
+        return customerRepository.findCustomerByEmail(email);
+    }
+
+    public Optional<Customer> findCustomerByName(String firstName, String lastName) {
+        return customerRepository.findCustomerByName(firstName, lastName);
     }
 }

@@ -46,4 +46,5 @@ public class ContractService {
         return contactRepository.deleteContractById(contractId);
     }
 
+
 }

@@ -1,7 +1,9 @@
 package org.ecomoveV1.presentations;
 
+import org.ecomoveV1.models.entities.Customer;
 import org.ecomoveV1.services.CustomerService;
 
+import java.util.Optional;
 import java.util.Scanner;
 
 public class CustomerUi {
@@ -71,5 +73,38 @@ public class CustomerUi {
             System.out.println("first name cannot be empty. Please try again.");
         }
 
+    }
+
+    public void searchCustomer() {
+        System.out.println("Search customer by:");
+        System.out.println("1. Email");
+        System.out.println("2. Name");
+        int choice = Integer.parseInt(scanner.nextLine());
+
+        Optional<Customer> customer;
+        switch (choice) {
+            case 1:
+                String email = getEmailInput();
+                customer = customerService.findCustomerByEmail(email);
+                break;
+            case 2:
+                String firstName = getFirstNameInput();
+                String lastName = getLastNameInput();
+                customer = customerService.findCustomerByName(firstName, lastName);
+                break;
+            default:
+                System.out.println("Invalid choice");
+                return;
+        }
+
+        if (customer.isPresent()) {
+            System.out.println("Customer found: " + customer.get());
+        } else {
+            System.out.println("Customer not found. Would you like to register? (Y/N)");
+            String answer = scanner.nextLine();
+            if (answer.equalsIgnoreCase("Y")) {
+                addCustomer();
+            }
+        }
     }
 }
