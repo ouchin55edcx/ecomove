@@ -11,24 +11,27 @@ public class Ticket {
 
     private UUID ticketId ;
     private UUID contractId ;
+    private UUID journeyId ;
     private TransportType transportType ;
     private BigDecimal purchasePrice;
     private BigDecimal salePrice ;
     private LocalDate saleDate ;
     private TicketStatus ticketStatus ;
 
-    public Ticket(UUID ticketId, UUID contractId, TransportType transportType, BigDecimal purchasePrice, BigDecimal salePrice, LocalDate saleDate, TicketStatus ticketStatus) {
-        this.ticketId = ticketId;
-        this.contractId = contractId;
-        this.transportType = transportType;
-        this.purchasePrice = purchasePrice;
-        this.salePrice = salePrice;
-        this.saleDate = saleDate;
-        this.ticketStatus = ticketStatus;
+    @Override
+    public String toString() {
+        return "Ticket{" +
+                "ticketId=" + ticketId +
+                ", contractId=" + contractId +
+                ", journeyId=" + journeyId +
+                ", transportType=" + transportType +
+                ", purchasePrice=" + purchasePrice +
+                ", salePrice=" + salePrice +
+                ", saleDate=" + saleDate +
+                ", ticketStatus=" + ticketStatus +
+                '}';
     }
 
-    public Ticket() {
-    }
 
 
     public UUID getTicketId() {
@@ -45,6 +48,14 @@ public class Ticket {
 
     public void setContractId(UUID contractId) {
         this.contractId = contractId;
+    }
+
+    public UUID getJourneyId() {
+        return journeyId;
+    }
+
+    public void setJourneyId(UUID journeyId) {
+        this.journeyId = journeyId;
     }
 
     public TransportType getTransportType() {
@@ -89,18 +100,20 @@ public class Ticket {
 
 
 
-    @Override
-    public String toString() {
-        return "Ticket{" +
-                "ticketId=" + ticketId +
-                ", contractId=" + contractId +
-                ", transportType=" + transportType +
-                ", purchasePrice=" + purchasePrice +
-                ", salePrice=" + salePrice +
-                ", saleDate=" + saleDate +
-                ", ticketStatus=" + ticketStatus +
-                '}';
+    public Ticket(UUID ticketId, UUID contractId, UUID journeyId, TransportType transportType, BigDecimal purchasePrice, BigDecimal salePrice, LocalDate saleDate, TicketStatus ticketStatus) {
+        this.ticketId = ticketId;
+        this.contractId = contractId;
+        this.journeyId = journeyId;
+        this.transportType = transportType;
+        this.purchasePrice = purchasePrice;
+        this.salePrice = salePrice;
+        this.saleDate = saleDate;
+        this.ticketStatus = ticketStatus;
     }
+
+
+
+
 
 
 
