@@ -8,6 +8,7 @@ public class Menu {
         System.out.println("2. Contract Management");
         System.out.println("3. Promotion Management");
         System.out.println("4. Ticket Management");
+        System.out.println("5. Client Management");
         System.out.println("0. Exit");
         System.out.print("Enter your choice: ");
     }
@@ -56,5 +57,13 @@ public class Menu {
         System.out.println("5. View ticket by id");
         System.out.println("0. Back to Main Menu");
         System.out.print("Enter your choice: ");
+    }
+
+    public void displayClientMenu(){
+        System.out.println("1. Register a client");
+        System.out.println("2. Search for a client");
+        System.out.println("3. Search for tickets and book");
+        System.out.println("4. Manage reservations");
+        System.out.println("0. Back to Main Menu");
     }
 }

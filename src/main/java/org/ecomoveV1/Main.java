@@ -184,6 +184,27 @@ public class Main {
                     System.out.println("Invalid choice. Please try again.");
             }
         }
+
+
+
+        public static void handleClientMenu(){
+            boolean inClientMenu = true;
+            while (inClientMenu){
+                menu.displayClientMenu();
+                int choice = getUserChoice();
+                switch (choice) {
+                    case 1:
+                        //
+                        break;
+                    case 0:
+                        inTicketMenu = false;
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please try again.");
+                }
+
+            }
+        }
     }
 
     private static int getUserChoice() {
