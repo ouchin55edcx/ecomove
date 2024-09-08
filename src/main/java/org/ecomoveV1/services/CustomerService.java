@@ -30,4 +30,14 @@ public class CustomerService {
     public Optional<Customer> findCustomerByName(String firstName, String lastName) {
         return customerRepository.findCustomerByName(firstName, lastName);
     }
+
+    public Customer findOrCreateCustomer(String firstName, String lastName, String email, String phoneNumber) {
+        Optional<Customer> existingCustomer = findCustomerByEmail(email);
+        if (existingCustomer.isPresent()) {
+            return existingCustomer.get();
+        } else {
+            addCustomer(firstName, lastName, email, phoneNumber);
+            return findCustomerByEmail(email).orElseThrow(() -> new RuntimeException("Failed to create customer"));
+        }
+    }
 }
