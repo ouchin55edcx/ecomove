@@ -19,7 +19,6 @@ public class Partner {
 
 
 
-
     public Partner(UUID id, String companyName, String commercialContact, TransportType transportType, String geographical_zone, String specialConditions, PartnerStatus status, Date creationDate) {
         this.id = id;
         this.companyName = companyName;
@@ -114,6 +113,7 @@ public class Partner {
                 ", creationDate=" + creationDate +
                 '}';
     }
+
 
 
 

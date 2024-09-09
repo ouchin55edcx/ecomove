@@ -14,6 +14,7 @@ public class Main {
     private static final PromotionalOfferRepository promotionalOfferRepository = new PromotionalOfferRepositoryImpl();
     private static final TicketRepository ticketRepository = new TicketRepositoryImpl();
     private static final CustomerRepository customerRepository = new CustomerRepositoryImpl();
+    private static final JourneyRepository journeyRepository = new JourneyRepositoryImpl();
 
     public static void main(String[] args) {
         final Menu menu = new Menu();
@@ -23,12 +24,14 @@ public class Main {
         PromotionService promotionService = new PromotionService(promotionalOfferRepository);
         TicketService ticketService = new TicketService(ticketRepository);
         CustomerService customerService = new CustomerService(customerRepository);
+        JourneyService journeyService = new JourneyService(journeyRepository);
         
         PartnerUi partnerUi = new PartnerUi(partnerService);
         ContractUi contractUi = new ContractUi(contractService);
         PromotionUi promotionUi = new PromotionUi(promotionService);
         TicketUi ticketUi = new TicketUi(ticketService);
         CustomerUi customerUi = new CustomerUi(customerService);
+        JourneyUi journeyUi = new JourneyUi(journeyService);
 
 
         boolean running = true;
@@ -53,9 +56,31 @@ public class Main {
                 case 5:
                     handleCustomerMenu(menu, customerUi);
                     break;
+                case 6 :
+                    handleJourneyMenu(menu, journeyUi);
+                    break;
                 case 0:
                     running = false;
                     System.out.println("Exiting! Goodbye.");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        }
+    }
+
+    private static void handleJourneyMenu(Menu menu, JourneyUi journeyUi) {
+        boolean inJourneyMenu = true ;
+
+        while (inJourneyMenu){
+            menu.displayJourneyMenu();
+            int choice = getUserChoice();
+            switch (choice) {
+                case 1:
+                    journeyUi.createJourney();
+                    break;
+                case 0:
+                    inJourneyMenu = false;
                     break;
                 default:
                     System.out.println("Invalid choice. Please try again.");

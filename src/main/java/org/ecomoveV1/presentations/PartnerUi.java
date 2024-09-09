@@ -3,7 +3,6 @@ package org.ecomoveV1.presentations;
 import org.ecomoveV1.models.entities.Partner;
 import org.ecomoveV1.models.enums.PartnerStatus;
 import org.ecomoveV1.models.enums.TransportType;
-import org.ecomoveV1.repositories.PartnerRepository;
 import org.ecomoveV1.services.PartnerService;
 
 import java.util.Date;
