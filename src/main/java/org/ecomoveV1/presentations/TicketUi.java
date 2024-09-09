@@ -1,18 +1,14 @@
 package org.ecomoveV1.presentations;
 
-import org.ecomoveV1.models.entities.Journey;
 import org.ecomoveV1.models.entities.Ticket;
 import org.ecomoveV1.models.enums.TicketStatus;
 import org.ecomoveV1.models.enums.TransportType;
-import org.ecomoveV1.repositories.TicketRepository;
-import org.ecomoveV1.repositories.impl.TicketRepositoryImpl;
+
 import org.ecomoveV1.services.TicketService;
 
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
@@ -210,6 +206,7 @@ public class TicketUi {
             System.out.println("Ticket Details:");
             System.out.println("ID: " + ticket.getTicketId());
             System.out.println("Contract ID: " + ticket.getContractId());
+            System.out.println("Journey ID: " + ticket.getJourneyId());
             System.out.println("Transport Type: " + ticket.getTransportType());
             System.out.println("Purchase Price: " + ticket.getPurchasePrice());
             System.out.println("Sale Price: " + ticket.getSalePrice());
