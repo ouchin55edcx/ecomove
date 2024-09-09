@@ -21,7 +21,5 @@ public class JourneyRepositoryImpl implements JourneyRepository {
         String query = "INSERT INTO " + tableName + " (id, start_location, end_location, departure_time, arrival_time) VALUES (?, ?, ?, ?, ?)";
 
 
-
-
     }
 }
