@@ -68,4 +68,37 @@ public class JourneyRepositoryImpl implements JourneyRepository {
 
         return journeys;
     }
+
+    @Override
+    public List<Journey> searchJourneys(String startLocation, String endLocation, LocalDate departureDate) {
+        List<Journey> journeys = new ArrayList<>();
+        String query = "SELECT * FROM " + tableName +
+                " WHERE start_location LIKE ? AND end_location LIKE ? AND DATE(departure_time) = ?";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, "%" + startLocation + "%");
+            pstmt.setString(2, "%" + endLocation + "%");
+            pstmt.setDate(3, java.sql.Date.valueOf(departureDate));
+            ResultSet resultSet = pstmt.executeQuery();
+
+            while (resultSet.next()) {
+                UUID id = (UUID) resultSet.getObject("id");
+                String start = resultSet.getString("start_location");
+                String end = resultSet.getString("end_location");
+                LocalDate departure = resultSet.getDate("departure_time").toLocalDate();
+                LocalDate arrival = resultSet.getDate("arrival_time").toLocalDate();
+                List<Ticket> tickets = ticketRepository.getTicketsByJourneyId(id);
+
+                Journey journey = new Journey(id, start, end, departure, arrival, tickets);
+                journeys.add(journey);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return journeys;
+    }
+
+
+
 }

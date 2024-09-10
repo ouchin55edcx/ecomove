@@ -70,4 +70,47 @@ public class JourneyUi {
     }
 
 
+    public void searchJourneys() {
+        System.out.println("#------------ Search Journeys : -------------#");
+
+        System.out.print("Enter start location: ");
+        String startLocation = scanner.nextLine();
+
+        System.out.print("Enter end location: ");
+        String endLocation = scanner.nextLine();
+
+        System.out.print("Enter departure date (yyyy-MM-dd): ");
+        LocalDate departureDate = LocalDate.parse(scanner.nextLine());
+
+        List<Journey> journeys = journeyService.searchJourneys(startLocation, endLocation, departureDate);
+
+        if (journeys.isEmpty()) {
+            System.out.println("No journeys found matching your criteria.");
+        } else {
+            for (Journey journey : journeys) {
+                System.out.println("Journey ID: " + journey.getId());
+                System.out.println("Start Location: " + journey.getStartLocation());
+                System.out.println("End Location: " + journey.getEndLocation());
+                System.out.println("Departure Time: " + journey.getDepartureTime());
+                System.out.println("Arrival Time: " + journey.getArrival_time());
+
+                List<Ticket> tickets = journey.getTickets();
+                if (tickets == null || tickets.isEmpty()) {
+                    System.out.println("No tickets available for this journey.");
+                } else {
+                    System.out.println("Available Tickets:");
+                    for (Ticket ticket : tickets) {
+                        System.out.println("- Ticket ID: " + ticket.getTicketId());
+                        System.out.println("  Transport Type: " + ticket.getTransportType());
+                        System.out.println("  Purchase Price: " + ticket.getPurchasePrice());
+                        System.out.println("  Sale Price: " + ticket.getSalePrice());
+                        System.out.println("  Status: " + ticket.getTicketStatus());
+                    }
+                }
+                System.out.println("---");
+            }
+        }
+    }
+
+
 }

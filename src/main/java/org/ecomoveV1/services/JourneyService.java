@@ -27,4 +27,8 @@ public class JourneyService {
     public List<Journey> getAllJourneys() {
         return journeyRepository.displayAllJourneys();
     }
+
+    public List<Journey> searchJourneys(String startLocation, String endLocation, LocalDate departureDate) {
+        return journeyRepository.searchJourneys(startLocation, endLocation, departureDate);
+    }
 }
