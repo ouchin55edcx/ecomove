@@ -72,6 +72,7 @@ public class Menu {
     public void displayJourneyMenu(){
         System.out.println("\n--- Journey Management ----");
         System.out.println("1. Add a journey");
+        System.out.println("1. Display  all journey");
 
     }
 }

@@ -1,8 +1,11 @@
 package org.ecomoveV1.presentations;
 
+import org.ecomoveV1.models.entities.Journey;
+import org.ecomoveV1.models.entities.Ticket;
 import org.ecomoveV1.services.JourneyService;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Scanner;
 
 public class JourneyUi {
@@ -33,4 +36,38 @@ public class JourneyUi {
 
         System.out.println("Journey created successfully!");
     }
+
+
+    public void displayAllJourneys() {
+        System.out.println("#------------ All Journeys : -------------#");
+
+        List<Journey> journeys = journeyService.getAllJourneys();
+
+        if (journeys.isEmpty()) {
+            System.out.println("No journeys found.");
+        } else {
+            for (Journey journey : journeys) {
+                System.out.println("Journey ID: " + journey.getId());
+                System.out.println("Start Location: " + journey.getStartLocation());
+                System.out.println("End Location: " + journey.getEndLocation());
+                System.out.println("Departure Time: " + journey.getDepartureTime());
+                System.out.println("Arrival Time: " + journey.getArrival_time());
+
+                List<Ticket> tickets = journey.getTickets();
+                if (tickets == null || tickets.isEmpty()) {
+                    System.out.println("No tickets found for this journey.");
+                } else {
+                    System.out.println("Tickets:");
+                    for (Ticket ticket : tickets) {
+                        System.out.println("- Ticket ID: " + ticket.getTicketId());
+                        System.out.println("  Ticket Type: " + ticket.getTransportType());
+                        System.out.println("  Price: " + ticket.getPurchasePrice());
+                    }
+                }
+                System.out.println("---");
+            }
+        }
+    }
+
+
 }

@@ -14,7 +14,7 @@ public class Main {
     private static final PromotionalOfferRepository promotionalOfferRepository = new PromotionalOfferRepositoryImpl();
     private static final TicketRepository ticketRepository = new TicketRepositoryImpl();
     private static final CustomerRepository customerRepository = new CustomerRepositoryImpl();
-    private static final JourneyRepository journeyRepository = new JourneyRepositoryImpl();
+    private static final JourneyRepository journeyRepository = new JourneyRepositoryImpl(ticketRepository);
 
     public static void main(String[] args) {
         final Menu menu = new Menu();
@@ -78,6 +78,9 @@ public class Main {
             switch (choice) {
                 case 1:
                     journeyUi.createJourney();
+                    break;
+                case 2:
+                    journeyUi.displayAllJourneys();
                     break;
                 case 0:
                     inJourneyMenu = false;

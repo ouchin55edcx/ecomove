@@ -11,6 +11,5 @@ public interface TicketRepository {
     void updateTicket(UUID id, Ticket updatedTicket);
     void deleteTicket(UUID id);
     Ticket getTicketById(UUID id);
-
-
+    List<Ticket> getTicketsByJourneyId(UUID id);
 }

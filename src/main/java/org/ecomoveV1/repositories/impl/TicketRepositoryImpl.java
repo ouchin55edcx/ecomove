@@ -6,10 +6,12 @@ import org.ecomoveV1.models.enums.TicketStatus;
 import org.ecomoveV1.models.enums.TransportType;
 import org.ecomoveV1.repositories.TicketRepository;
 
+import javax.swing.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class TicketRepositoryImpl implements TicketRepository {
 
@@ -18,13 +20,10 @@ public class TicketRepositoryImpl implements TicketRepository {
 
     @Override
     public void addTicket(Ticket ticket) {
+        String query = "INSERT INTO " + tableName + " (id, contract_id, journey_id, transport_type, purchase_price, sale_price, sale_date, status) " +
+                "VALUES (?, ?, ?, ?::transport_type, ?, ?, ?, ?::ticket_status)";
 
-        String query = "INSERT INTO "+tableName+" (id, contract_id,journey_id, transport_type, purchase_price, sale_price, sale_date, status) " +
-                "VALUES (?, ?,?, ?::transport_type, ?, ?, ?, ?::ticket_status)";
-
-        boolean added = false;
-        try(PreparedStatement pstmt = connection.prepareStatement(query)) {
-
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
             pstmt.setObject(1, ticket.getTicketId());
             pstmt.setObject(2, ticket.getContractId());
             pstmt.setObject(3, ticket.getJourneyId());
@@ -33,14 +32,12 @@ public class TicketRepositoryImpl implements TicketRepository {
             pstmt.setBigDecimal(6, ticket.getSalePrice());
             pstmt.setDate(7, java.sql.Date.valueOf(ticket.getSaleDate()));
             pstmt.setString(8, ticket.getTicketStatus().name());
-
-            int affectedRows = pstmt.executeUpdate();
-            added = (affectedRows > 0);
-
+            pstmt.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
 
     @Override
     public List<Ticket> getAllticket() {
@@ -137,6 +134,32 @@ public class TicketRepositoryImpl implements TicketRepository {
         }
     }
 
+    @Override
+    public List<Ticket> getTicketsByJourneyId(UUID id) {
+        final List<Ticket > tickets = new ArrayList<>();
+        final String query = "SELECT * FROM "+tableName+ " WHERE journey_id = ?";
+        try (PreparedStatement pstmt = connection.prepareStatement(query)){
+            pstmt.setObject(1, id);
+
+            ResultSet resultSet = pstmt.executeQuery();
+            while (resultSet.next()) {
+                Ticket ticket = new Ticket(
+                        resultSet.getObject("id", UUID.class),
+                        resultSet.getObject("contract_id", UUID.class),
+                        resultSet.getObject("journey_id", UUID.class),
+                        TransportType.valueOf(resultSet.getString("transport_type")),
+                        resultSet.getBigDecimal("purchase_price"),
+                        resultSet.getBigDecimal("sale_price"),
+                        resultSet.getDate("sale_date").toLocalDate(),
+                        TicketStatus.valueOf(resultSet.getString("status"))
+                );
+                tickets.add(ticket);
+            }
+            return tickets;
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 
 }

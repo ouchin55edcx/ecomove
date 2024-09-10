@@ -22,8 +22,8 @@ public class TicketService {
                           BigDecimal salePrice, LocalDate saleDate, TicketStatus ticketStatus) {
         Ticket newTicket = new Ticket(
                 UUID.randomUUID(),
-                journeyId,
                 contractId,
+                journeyId,
                 transportType,
                 purchasePrice,
                 salePrice,
