@@ -1,25 +1,41 @@
 package org.ecomoveV1.repositories.impl;
 
 import org.ecomoveV1.config.DatabaseConnection;
+import org.ecomoveV1.models.entities.PromotionalOffer;
 import org.ecomoveV1.models.entities.Ticket;
+import org.ecomoveV1.models.enums.OfferStatus;
+import org.ecomoveV1.models.enums.ReductionType;
 import org.ecomoveV1.models.enums.TicketStatus;
 import org.ecomoveV1.models.enums.TransportType;
+import org.ecomoveV1.repositories.PromotionalOfferRepository;
 import org.ecomoveV1.repositories.TicketRepository;
 
-import javax.swing.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.atomic.AtomicReferenceArray;
 
 public class TicketRepositoryImpl implements TicketRepository {
 
     private final Connection connection = DatabaseConnection.getInstance().getConnection();
     final String tableName = "ticket";
 
-    @Override
+
+
+
+
     public void addTicket(Ticket ticket) {
+        // Check for active promotion
+        PromotionalOffer offer = getActiveOfferByContractId(ticket.getContractId());
+
+        if (offer != null) {
+            // Apply promotion to sale price
+            BigDecimal discountedPrice = applyPromotion(ticket.getSalePrice(), offer);
+            ticket.setSalePrice(discountedPrice);
+        }
+
         String query = "INSERT INTO " + tableName + " (id, contract_id, journey_id, transport_type, purchase_price, sale_price, sale_date, status) " +
                 "VALUES (?, ?, ?, ?::transport_type, ?, ?, ?, ?::ticket_status)";
 
@@ -34,9 +50,49 @@ public class TicketRepositoryImpl implements TicketRepository {
             pstmt.setString(8, ticket.getTicketStatus().name());
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error adding ticket", e);
         }
     }
+
+    private BigDecimal applyPromotion(BigDecimal originalPrice, PromotionalOffer offer) {
+        if (offer.getReductionType() == ReductionType.PERCENTAGE) {
+            BigDecimal discountFactor = BigDecimal.ONE.subtract(offer.getReduction_value().divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP));
+            return originalPrice.multiply(discountFactor).setScale(2, RoundingMode.HALF_UP);
+        } else if (offer.getReductionType() == ReductionType.FIXED_AMOUNT) {
+            return originalPrice.subtract(offer.getReduction_value()).max(BigDecimal.ZERO);
+        }
+        return originalPrice;
+    }
+
+    private PromotionalOffer getActiveOfferByContractId(UUID contractId) {
+        String query = "SELECT * FROM promotional_offer WHERE contract_id = ? AND status = 'ACTIVE' " +
+                "AND CURRENT_DATE BETWEEN start_date AND end_date";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setObject(1, contractId);
+
+            try (ResultSet resultSet = pstmt.executeQuery()) {
+                if (resultSet.next()) {
+                    return new PromotionalOffer(
+                            UUID.fromString(resultSet.getString("id")),
+                            UUID.fromString(resultSet.getString("contract_id")),
+                            resultSet.getString("offer_name"),
+                            resultSet.getString("description"),
+                            resultSet.getDate("start_date").toLocalDate(),
+                            resultSet.getDate("end_date").toLocalDate(),
+                            ReductionType.valueOf(resultSet.getString("reduction_type")),
+                            resultSet.getBigDecimal("reduction_value"),
+                            resultSet.getString("conditions"),
+                            OfferStatus.valueOf(resultSet.getString("status"))
+                    );
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error retrieving promotional offer", e);
+        }
+        return null;
+    }
+
 
 
     @Override

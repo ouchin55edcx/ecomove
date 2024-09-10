@@ -9,12 +9,14 @@ import java.util.Scanner;
 
 public class Main {
     public static final Scanner scanner = new Scanner(System.in);
+
     private static final PartnerRepository partnerRepository = new PartnerRepositoryImpl();
     private static final ContactRepository contactRepository = new ContactRepositoryImpl();
     private static final PromotionalOfferRepository promotionalOfferRepository = new PromotionalOfferRepositoryImpl();
     private static final TicketRepository ticketRepository = new TicketRepositoryImpl();
     private static final CustomerRepository customerRepository = new CustomerRepositoryImpl();
     private static final JourneyRepository journeyRepository = new JourneyRepositoryImpl(ticketRepository);
+
 
     public static void main(String[] args) {
         final Menu menu = new Menu();
