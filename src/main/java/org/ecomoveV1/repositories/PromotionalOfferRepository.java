@@ -12,5 +12,8 @@ public interface PromotionalOfferRepository {
     void updatePromotionalOffer(PromotionalOffer offer);
     void deletePromotionalOffer(UUID id);
 
+    PromotionalOffer getActiveOfferByContractId(UUID contractId);
+
+
 
 }

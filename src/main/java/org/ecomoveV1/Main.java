@@ -85,6 +85,7 @@ public class Main {
                 case 3 :
                     journeyUi.searchJourneys();
                     break;
+
                 case 0:
                     inJourneyMenu = false;
                     break;
@@ -202,6 +203,9 @@ public class Main {
                     break;
                 case 5:
                     promotionUi.deletePromotionalOffer();
+                    break;
+                case 6:
+                    promotionUi.displayPromotionByContractId();
                     break;
                 case 0:
                     inPromotionMenu = false;

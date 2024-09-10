@@ -1,5 +1,6 @@
 package org.ecomoveV1.presentations;
 
+import org.ecomoveV1.models.entities.Contract;
 import org.ecomoveV1.models.entities.PromotionalOffer;
 import org.ecomoveV1.models.enums.OfferStatus;
 import org.ecomoveV1.models.enums.ReductionType;
@@ -307,6 +308,35 @@ public class PromotionUi {
                 } else {
                     System.out.println("Deletion cancelled.");
                 }
+            } else {
+                System.out.println("No promotion found with ID: " + idString);
+            }
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid UUID format. Please try again.");
+        }
+    }
+
+
+    public void displayPromotionByContractId() {
+        System.out.print("Enter the contract ID: ");
+        String idString = scanner.nextLine().trim();
+
+        try {
+            UUID contractId = UUID.fromString(idString);
+            PromotionalOffer offer = promotionService.getPromotionalOfferByContractId(contractId);
+
+            if (offer != null) {
+                System.out.println("\nPromotion Details:");
+                System.out.println("ID: " + offer.getId());
+                System.out.println("Contract ID: " + offer.getContractId());
+                System.out.println("Offer Name: " + offer.getOfferName());
+                System.out.println("Description: " + offer.getDescription());
+                System.out.println("Start Date: " + offer.getStartDate());
+                System.out.println("End Date: " + offer.getEndDate());
+                System.out.println("Reduction Type: " + offer.getReductionType());
+                System.out.println("Reduction Value: " + offer.getReduction_value());
+                System.out.println("Conditions: " + offer.getConditions());
+                System.out.println("Status: " + offer.getStatus());
             } else {
                 System.out.println("No promotion found with ID: " + idString);
             }

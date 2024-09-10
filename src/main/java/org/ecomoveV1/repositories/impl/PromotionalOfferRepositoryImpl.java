@@ -154,4 +154,40 @@ import java.util.UUID;
         }
 
 
+        @Override
+        public PromotionalOffer getActiveOfferByContractId(UUID contractId) {
+            String query = "SELECT * FROM promotional_offer WHERE contract_id = ? AND status = 'ACTIVE' " +
+                    "AND CURRENT_DATE BETWEEN start_date AND end_date";
+
+            try (PreparedStatement pstmt = connection.prepareStatement(query)){
+
+                pstmt.setObject(1,contractId);
+
+                try (ResultSet resultSet = pstmt.executeQuery()){
+                    if (resultSet.next()){
+
+                        PromotionalOffer offer = new PromotionalOffer();
+                        offer.setId(UUID.fromString(resultSet.getString("id")));
+                        offer.setContractId(UUID.fromString(resultSet.getString("contract_id")));
+                        offer.setOfferName(resultSet.getString("offer_name"));
+                        offer.setDescription(resultSet.getString("description"));
+                        offer.setStartDate(resultSet.getDate("start_date").toLocalDate());
+                        offer.setEndDate(resultSet.getDate("end_date").toLocalDate());
+                        offer.setReductionType(ReductionType.valueOf(resultSet.getString("reduction_type")));
+                        offer.setReduction_value(resultSet.getBigDecimal("reduction_value"));
+                        offer.setConditions(resultSet.getString("conditions"));
+                        offer.setStatus(OfferStatus.valueOf(resultSet.getString("status")));
+                        return offer;
+
+                    }
+
+                }
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            return null;
+        }
+
+
     }

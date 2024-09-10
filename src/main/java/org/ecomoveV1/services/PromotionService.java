@@ -44,5 +44,9 @@ public class PromotionService {
         promotionalOfferRepository.deletePromotionalOffer(id);
     }
 
+    public PromotionalOffer getPromotionalOfferByContractId(UUID contractId){
+        return promotionalOfferRepository.getActiveOfferByContractId(contractId);
+    }
+
 
 }
