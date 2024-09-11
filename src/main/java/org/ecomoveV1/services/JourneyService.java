@@ -31,4 +31,5 @@ public class JourneyService {
     public List<Journey> searchJourneys(String startLocation, String endLocation, LocalDate departureDate) {
         return journeyRepository.searchJourneys(startLocation, endLocation, departureDate);
     }
+
 }
