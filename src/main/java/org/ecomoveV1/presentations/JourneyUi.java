@@ -72,5 +72,43 @@ public class JourneyUi {
         }
     }
 
+    public void searchJourneys() {
+        System.out.println("#------------ Search Journeys : -------------#");
+
+        System.out.print("Enter start location: ");
+        String startLocation = scanner.nextLine();
+
+        System.out.print("Enter end location: ");
+        String endLocation = scanner.nextLine();
+
+        LocalDate date = null;
+        while (date == null) {
+            System.out.print("Enter date (yyyy-MM-dd): ");
+            String dateString = scanner.nextLine();
+            try {
+                date = LocalDate.parse(dateString);
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format. Please use yyyy-MM-dd.");
+            }
+        }
+
+        List<Journey> journeys = journeyService.searchJourneys(startLocation, endLocation, date);
+
+        if (journeys.isEmpty()) {
+            System.out.println("No journeys found for the given criteria.");
+        } else {
+            System.out.println("Found journeys:");
+            for (Journey journey : journeys) {
+                System.out.println("Journey ID: " + journey.getId());
+                System.out.println("Start Location: " + journey.getStartLocation());
+                System.out.println("End Location: " + journey.getEndLocation());
+                System.out.println("Departure Time: " + journey.getDepartureTime());
+                System.out.println("Arrival Time: " + journey.getArrival_time());
+                System.out.println("Available Tickets: " + journey.getTickets().size());
+                System.out.println("---");
+            }
+        }
+    }
+
 
 }

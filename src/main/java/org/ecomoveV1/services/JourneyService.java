@@ -5,6 +5,7 @@ import org.ecomoveV1.models.entities.Ticket;
 import org.ecomoveV1.repositories.JourneyRepository;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,6 +27,11 @@ public class JourneyService {
 
     public List<Journey> getAllJourneys() {
         return journeyRepository.displayAllJourneys();
+    }
+
+
+    public List<Journey> searchJourneys(String startLocation, String endLocation, LocalDate date) {
+        return journeyRepository.searchJourneys(startLocation, endLocation, date);
     }
 
 

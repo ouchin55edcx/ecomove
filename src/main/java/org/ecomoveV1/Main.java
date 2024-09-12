@@ -84,6 +84,9 @@ public class Main {
                 case 2:
                     journeyUi.displayAllJourneys();
                     break;
+                case 3:
+                    journeyUi.searchJourneys();
+                    break;
                 case 0:
                     inJourneyMenu = false;
                     break;
@@ -243,9 +246,6 @@ public class Main {
             }
         }
     }
-
-
-
 
     private static int getUserChoice() {
         while (!scanner.hasNextInt()) {

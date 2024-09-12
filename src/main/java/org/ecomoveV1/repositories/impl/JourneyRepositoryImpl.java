@@ -8,6 +8,7 @@ import org.ecomoveV1.repositories.TicketRepository;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -69,7 +70,34 @@ public class JourneyRepositoryImpl implements JourneyRepository {
         return journeys;
     }
 
+    @Override
+    public List<Journey> searchJourneys(String startLocation, String endLocation, LocalDate date) {
+        List<Journey> journeys = new ArrayList<>();
+        String query = "SELECT * FROM " + tableName +
+                " WHERE start_location = ? AND end_location = ? AND DATE(departure_time) = ?";
 
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setString(1, startLocation);
+            pstmt.setString(2, endLocation);
+            pstmt.setDate(3, java.sql.Date.valueOf(date));
+
+            ResultSet resultSet = pstmt.executeQuery();
+
+            while (resultSet.next()) {
+                UUID id = (UUID) resultSet.getObject("id");
+                LocalDate departureTime = resultSet.getDate("departure_time").toLocalDate();
+                LocalDate arrivalTime = resultSet.getDate("arrival_time").toLocalDate();
+                List<Ticket> tickets = ticketRepository.getTicketsByJourneyId(id);
+
+                Journey journey = new Journey(id, startLocation, endLocation, departureTime, arrivalTime, tickets);
+                journeys.add(journey);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return journeys;
+    }
 
 
 
