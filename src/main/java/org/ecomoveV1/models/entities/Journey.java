@@ -22,6 +22,8 @@ public class Journey {
     }
 
 
+
+
     public UUID getId() {
         return id;
     }

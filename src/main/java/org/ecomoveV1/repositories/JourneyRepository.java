@@ -8,6 +8,5 @@ import java.util.List;
 public interface JourneyRepository {
     void createJourney(Journey journey);
     List<Journey> displayAllJourneys();
-    List<Journey> searchJourneys(String startLocation, String endLocation, LocalDate departureDate);
 
 }
