@@ -1,26 +1,22 @@
 package org.ecomoveV1.services;
 
 import org.ecomoveV1.models.entities.Journey;
-import org.ecomoveV1.models.entities.Ticket;
 import org.ecomoveV1.repositories.JourneyRepository;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 public class JourneyService {
-
-
     private final JourneyRepository journeyRepository;
 
     public JourneyService(JourneyRepository journeyRepository) {
         this.journeyRepository = journeyRepository;
     }
 
-
-    public void createJourney(String startLocation, String endLocation, LocalDate departureDate, LocalDate arrivalDate) {
+    public void createJourney(String startLocation, String endLocation, LocalDateTime departureDateTime, LocalDateTime arrivalDateTime) {
         UUID id = UUID.randomUUID();
-        Journey newJourney = new Journey(id, startLocation, endLocation, departureDate, arrivalDate, null);
+        Journey newJourney = new Journey(id, startLocation, endLocation, departureDateTime, arrivalDateTime, null);
         journeyRepository.createJourney(newJourney);
     }
 
@@ -28,8 +24,7 @@ public class JourneyService {
         return journeyRepository.displayAllJourneys();
     }
 
-    public List<Journey> searchJourneys(String startLocation, String endLocation, LocalDate departureDate) {
-        return journeyRepository.searchJourneys(startLocation, endLocation, departureDate);
+    public List<Journey> searchJourneys(String startLocation, String endLocation, LocalDateTime departureDateTime) {
+        return journeyRepository.searchJourneys(startLocation, endLocation, departureDateTime);
     }
-
 }

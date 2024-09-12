@@ -1,27 +1,27 @@
 package org.ecomoveV1.models.entities;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 public class Journey {
-    private UUID id ;
+    private UUID id;
     private String startLocation;
-    private String endLocation ;
-    private LocalDate departureTime ;
-    private LocalDate arrival_time ;
-    private List<Ticket> tickets ;
+    private String endLocation;
+    private LocalDateTime departureTime;
+    private LocalDateTime arrivalTime;
+    private List<Ticket> tickets;
 
-    public Journey(UUID id, String startLocation, String endLocation, LocalDate departureTime, LocalDate arrival_time, List<Ticket> tickets) {
+    public Journey(UUID id, String startLocation, String endLocation, LocalDateTime departureTime, LocalDateTime arrivalTime, List<Ticket> tickets) {
         this.id = id;
         this.startLocation = startLocation;
         this.endLocation = endLocation;
         this.departureTime = departureTime;
-        this.arrival_time = arrival_time;
+        this.arrivalTime = arrivalTime;
         this.tickets = tickets;
     }
 
-
+    // Getters and setters
     public UUID getId() {
         return id;
     }
@@ -46,20 +46,20 @@ public class Journey {
         this.endLocation = endLocation;
     }
 
-    public LocalDate getDepartureTime() {
+    public LocalDateTime getDepartureTime() {
         return departureTime;
     }
 
-    public void setDepartureTime(LocalDate departureTime) {
+    public void setDepartureTime(LocalDateTime departureTime) {
         this.departureTime = departureTime;
     }
 
-    public LocalDate getArrival_time() {
-        return arrival_time;
+    public LocalDateTime getArrivalTime() {
+        return arrivalTime;
     }
 
-    public void setArrival_time(LocalDate arrival_time) {
-        this.arrival_time = arrival_time;
+    public void setArrivalTime(LocalDateTime arrivalTime) {
+        this.arrivalTime = arrivalTime;
     }
 
     public List<Ticket> getTickets() {
@@ -70,7 +70,6 @@ public class Journey {
         this.tickets = tickets;
     }
 
-
     @Override
     public String toString() {
         return "Journey{" +
@@ -78,14 +77,8 @@ public class Journey {
                 ", startLocation='" + startLocation + '\'' +
                 ", endLocation='" + endLocation + '\'' +
                 ", departureTime=" + departureTime +
-                ", arrival_time=" + arrival_time +
+                ", arrivalTime=" + arrivalTime +
                 ", tickets=" + tickets +
                 '}';
     }
-
-
-
-
-
-
 }
