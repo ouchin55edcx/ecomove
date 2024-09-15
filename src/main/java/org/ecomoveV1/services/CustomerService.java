@@ -40,4 +40,7 @@ public class CustomerService {
             return findCustomerByEmail(email).orElseThrow(() -> new RuntimeException("Failed to create customer"));
         }
     }
+    public Optional<Customer> login(String email) {
+        return customerRepository.findCustomerByEmail(email);
+    }
 }

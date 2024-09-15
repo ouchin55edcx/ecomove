@@ -1,5 +1,6 @@
 package org.ecomoveV1;
 
+import org.ecomoveV1.models.entities.Customer;
 import org.ecomoveV1.presentations.*;
 import org.ecomoveV1.repositories.*;
 import org.ecomoveV1.repositories.impl.*;
@@ -33,7 +34,8 @@ public class Main {
         PromotionUi promotionUi = new PromotionUi(promotionService);
         TicketUi ticketUi = new TicketUi(ticketService);
         CustomerUi customerUi = new CustomerUi(customerService);
-        JourneyUi journeyUi = new JourneyUi(journeyService);
+        JourneyUi journeyUi = new JourneyUi(journeyService, customerService);
+
 
 
         boolean running = true;
@@ -59,7 +61,7 @@ public class Main {
                     handleCustomerMenu(menu, customerUi);
                     break;
                 case 6 :
-                    handleJourneyMenu(menu, journeyUi);
+                    handleJourneyMenu(menu, journeyUi, customerUi);
                     break;
                 case 0:
                     running = false;
@@ -71,10 +73,11 @@ public class Main {
         }
     }
 
-    private static void handleJourneyMenu(Menu menu, JourneyUi journeyUi) {
-        boolean inJourneyMenu = true ;
+    private static void handleJourneyMenu(Menu menu, JourneyUi journeyUi, CustomerUi customerUi) {
+        Customer loggedInCustomer = null;
+        boolean inJourneyMenu = true;
 
-        while (inJourneyMenu){
+        while (inJourneyMenu) {
             menu.displayJourneyMenu();
             int choice = getUserChoice();
             switch (choice) {
@@ -84,10 +87,22 @@ public class Main {
                 case 2:
                     journeyUi.displayAllJourneys();
                     break;
-                case 3 :
+                case 3:
+                    if (loggedInCustomer == null) {
+                        System.out.println("You need to log in first.");
+                        loggedInCustomer = customerUi.login();
+                        journeyUi.setLoggedInCustomer(loggedInCustomer);
+                    }
                     journeyUi.searchJourneys();
                     break;
-
+                case 4:
+                    if (loggedInCustomer == null) {
+                        System.out.println("You need to log in first.");
+                        loggedInCustomer = customerUi.login();
+                        journeyUi.setLoggedInCustomer(loggedInCustomer);
+                    }
+                    journeyUi.reserveJourney();
+                    break;
                 case 0:
                     inJourneyMenu = false;
                     break;
@@ -96,7 +111,6 @@ public class Main {
             }
         }
     }
-
     private static void handleCustomerMenu(Menu menu, CustomerUi customerUi) {
         boolean inClientMenu = true;
         while (inClientMenu){

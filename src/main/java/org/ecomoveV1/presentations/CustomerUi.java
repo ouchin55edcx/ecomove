@@ -38,6 +38,7 @@ public class CustomerUi {
         }
 
     }
+
     private String getLastNameInput(){
         while (true){
 
@@ -50,6 +51,7 @@ public class CustomerUi {
         }
 
     }
+
     private String getEmailInput(){
         while (true){
 
@@ -62,6 +64,7 @@ public class CustomerUi {
         }
 
     }
+
     private String getPhoneNumberInput(){
         while (true){
 
@@ -106,5 +109,34 @@ public class CustomerUi {
                 addCustomer();
             }
         }
+    }
+
+
+
+    public Customer login() {
+        while (true) {
+            System.out.println("Enter your email to log in (or 'register' to create a new account):");
+            String input = scanner.nextLine().trim();
+
+            if (input.equalsIgnoreCase("register")) {
+                return registerNewCustomer();
+            }
+
+            Optional<Customer> customer = customerService.login(input);
+            if (customer.isPresent()) {
+                System.out.println("Login successful!");
+                return customer.get();
+            } else {
+                System.out.println("No account found with this email. Would you like to register? (Y/N)");
+                if (scanner.nextLine().trim().equalsIgnoreCase("Y")) {
+                    return registerNewCustomer();
+                }
+            }
+        }
+    }
+
+    private Customer registerNewCustomer() {
+        addCustomer();
+        return customerService.findCustomerByEmail(getEmailInput()).orElseThrow(() -> new RuntimeException("Failed to create customer"));
     }
 }

@@ -27,4 +27,16 @@ public class JourneyService {
     public List<Journey> searchJourneys(String startLocation, String endLocation, LocalDateTime departureDateTime) {
         return journeyRepository.searchJourneys(startLocation, endLocation, departureDateTime);
     }
+
+    public void reserveJourney(String customerEmail, UUID journeyId) {
+        // Assuming you have a method to get customer ID from email
+        UUID customerId = getCustomerIdFromEmail(customerEmail);
+        journeyRepository.reserveJourney(journeyId, customerId);
+    }
+
+    private UUID getCustomerIdFromEmail(String email) {
+        // Implement this method to retrieve customer ID from email
+        // This might involve calling a method from CustomerService
+        throw new UnsupportedOperationException("Method not yet implemented");
+    }
 }

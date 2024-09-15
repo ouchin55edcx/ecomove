@@ -139,4 +139,19 @@ public class JourneyRepositoryImpl implements JourneyRepository {
         combinedTickets.addAll(secondLeg.getTickets());
         return combinedTickets;
     }
+
+    @Override
+    public void reserveJourney(UUID journeyId, UUID customerId) {
+        String query = "INSERT INTO reservations (journey_id, customer_id, reservation_date) VALUES (?, ?, ?)";
+
+        try (PreparedStatement pstmt = connection.prepareStatement(query)) {
+            pstmt.setObject(1, journeyId);
+            pstmt.setObject(2, customerId);
+            pstmt.setTimestamp(3, Timestamp.valueOf(LocalDateTime.now()));
+
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error reserving journey", e);
+        }
+    }
 }
